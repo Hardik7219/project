@@ -1,7 +1,34 @@
 'use client'
 import React, {useState } from "react";
+import {signIn} from 'next-auth/react'
 
 export default function Signin() {
+  const handleSignup = async () => {
+  const res = await fetch("/api/auth/signup", {
+    method: "POST",
+    headers: { "Content-Type": "application/json" },
+    body: JSON.stringify({
+      userName,
+      email,
+      password,
+    }),
+  });
+
+  const data = await res.json();
+
+  if (!res.ok) {
+    setErr(data.error);
+    return;
+  }
+
+  // ✅ OPTIONAL: auto login after signup
+  await signIn("credentials", {
+    email,
+    password,
+    redirect: true,
+    callbackUrl: "/profile",
+  });
+};
   const [email,setEmail]=useState<string>("");
   const [user,setUser]=useState<string>("");
   const [pswd,setPswd]=useState<string>("");

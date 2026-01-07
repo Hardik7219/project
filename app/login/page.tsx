@@ -1,5 +1,6 @@
 'use client'
 import React, {useState } from "react";
+import {signIn} from "next-auth/react";
 
 export default function Signin() {
   const [email,setEmail]=useState<string>("");
