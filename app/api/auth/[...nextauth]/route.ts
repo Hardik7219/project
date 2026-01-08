@@ -3,6 +3,7 @@ import { NextAuthOptions } from "next-auth";
 import bcrypt from "bcryptjs";
 import {connections} from '@/lib/db'
 import {Users} from '@/lib/user.model'
+import NextAuth from "next-auth";
 
 export const authOptions : NextAuthOptions = {
     providers:[
@@ -26,9 +27,13 @@ export const authOptions : NextAuthOptions = {
                     if(!isLogin) throw new Error("password is wrong");
 
                     else{
-                        return user
+                        return {
+                            id: user._id.toString(),
+                            email: user.email,
+                            userName: user.userName,
                     }
-                } catch (error : any) {
+                    }
+                } catch (error) {
                     throw new Error(error);
                 }
             }
@@ -57,3 +62,6 @@ export const authOptions : NextAuthOptions = {
     },
     secret: process.env.NEXTAUTH_SECRET,
 }
+
+const handler = NextAuth(authOptions);
+export {handler as GET, handler as POST};
