@@ -24,7 +24,7 @@ export default function Navbar() {
             <div className="bg-black text-amber-50 justify-self-start "><Link href={"/pages/home"}>APP</Link></div>
             <div className="justify-self-end">
               
-              <button className=" hover:text-gray-800 bg-blue-100 p-1 m-1 rounded-[5px] text-red-600 " onClick={()=>{signOut({callbackUrl:"/login"})}}>{user? "LOG OUT" : "SIGN IN"}</button>
+              <button className=" hover:text-gray-800 bg-blue-100 p-0.5 m-1 rounded-[5px] text-red-600 " onClick={()=>{signOut({callbackUrl:"/login"})}}>{user? "LOG OUT" : "SIGN IN"}</button>
               <Link className=" hover:text-gray-800 bg-blue-100 p-1 m-1 rounded-[5px] text-green-500 "href={isLogin? "/pages/profile" : "/login"}>{isLogin? "PROFILE" :"LOG IN"}</Link>
             </div>
         </div>

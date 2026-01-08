@@ -1,11 +1,12 @@
 import mongoose from "mongoose";
 
 const taskSchema= new mongoose.Schema({
-    user : [{
+    user: [{
         type : mongoose.Schema.Types.ObjectId,
         ref: "Users"
     }],
-    title : String
+    title : String,
+    detail: String
 })
 
 export const Tasks = (mongoose.models && mongoose.models.Tasks)

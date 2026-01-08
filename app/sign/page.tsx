@@ -13,7 +13,7 @@ export default function Signin() {
     e.preventDefault();
     const res = await fetch('/api/sign-in',
     {
-        method: "POST",
+      method: "POST",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify({ userName:user, email, password: pswd }),
     })  
@@ -58,7 +58,7 @@ export default function Signin() {
         </div>
         <input  className="bg-amber-500 p-1 h-10 w-20 text-black hover:text-gray-800 hover:bg-amber-400 rounded-2xl" type="submit" value={"SIGN IN"}/>
         <div className="flex self-end justify-self-end">
-          <Link className="p-1 h-10 w-20 text-green-400 font-bold hover:text-gray-800 " href="/login">LOGIN</Link>
+          <Link className="p-1 h-10 w-20 text-green-400 font-bold hover:text-green-200 " href="/login">LOGIN</Link>
         </div>
       </form>
     </div>

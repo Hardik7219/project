@@ -2,6 +2,8 @@
 import Task from '../task/page'
 import { useSession } from 'next-auth/react';
 import { useEffect,useState } from 'react';
+import Loader from '@/components/loader/Loader';
+
 export default  function Profile() {
     const { data: session } = useSession();
     const [user, setUser] = useState<any>(null);
@@ -12,16 +14,14 @@ export default  function Profile() {
         .then(data => setUser(data));
     }, []);
 
-    if (!user) return <p>Loading...</p>;
-
-
+    if (!user) return <Loader></Loader>;
     return (
         <>
             <div className="w-full p-2 bg-amber-50 min-h-screen ">
                 <div className="w-full bg-amber-950 flex flex-col justify-end lg:h-98 ">
                     <div className="flex  items-center">
                         <div className="bg-amber-500 h-56 w-56 rounded-full m-5"></div>
-                        <h1 className="font-bold text-2xl">{user.userName}</h1>
+                        <h1 className="font-bold text-2xl">{user.user.userName}</h1>
                     </div>
 
                     <div className="flex justify-end p-2 bg-amber-400 h-15 w-full w">
