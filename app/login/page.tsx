@@ -1,13 +1,16 @@
 'use client'
 import React, {useState } from "react";
+import { signIn } from "next-auth/react";
+import { useRouter } from "next/navigation";
 
 export default function Signin() {
   const [email,setEmail]=useState<string>("");
   const [pswd,setPswd]=useState<string>("");
   const [err,setErr]=useState<string>("");
   const [psshow,setPasshow]=useState<boolean>(false);
+  const router = useRouter();
 
-  const getValue =(e: React.FormEvent)=>{
+  const getValue =async (e: React.FormEvent)=>{
     e.preventDefault();
     if(!email || !pswd )
     {
@@ -25,7 +28,17 @@ export default function Signin() {
       return;
     }
     setErr("")
-    alert("SIGN IN");
+      const res = await signIn("credentials", {
+      email,
+      password:pswd,
+      redirect: false,
+    });
+
+    if (res?.error) {
+      setErr(res.error);
+    } else {
+      router.push("/dashboard");
+    }
   }
 
   return (

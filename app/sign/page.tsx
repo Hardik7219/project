@@ -1,6 +1,6 @@
 'use client'
 import React, {useState } from "react";
-import {signIn} from 'next-auth/react'
+
 
 export default function Signin() {
   const [email,setEmail]=useState<string>("");
@@ -11,46 +11,16 @@ export default function Signin() {
 
   const getValue =async (e: React.FormEvent)=>{
     e.preventDefault();
-    if(!email || !user || !pswd )
+    const res = await fetch('/api/sign-in',
     {
-      setErr("ALL field must recuired ");
-      return;
-    }
-    if(!email.includes("@"))
-    {
-      setErr("Email is not valid ");
-      return;
-    }
-    if(pswd.length<6)
-    {
-      setErr("Password must be at least 6 characters");
-      return;
-    }
-    setErr("")
-      const res = await fetch("app/api/auth/signup/route.ts", {
-      method: "POST",
+        method: "POST",
       headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({
-        user,
-        email,
-        pswd,
-      }),
-    });
-
+      body: JSON.stringify({ userName:user, email, password: pswd }),
+    })  
     const data = await res.json();
-
-    if (!res.ok) {
-      setErr(data.error);
-      return;
-    }
-
-    await signIn("credentials", {
-      email,
-      pswd,
-      redirect: true,
-      callbackUrl: "/home",
-    });
+    setErr(data.message);
   }
+  
 
   return (
     <div className="min-h-screen bg-gray-900 flex flex-col items-center justify-center px-4">

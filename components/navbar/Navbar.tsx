@@ -1,10 +1,13 @@
 'use client'
 import { useState } from "react";
 import Link from "next/link";
+import SIGN from '@/app/sign/page';
 
 export default function Navbar() {
     const [user,setUser]=useState<boolean>(false);
     const [isLogin,setIsLogin]=useState<boolean>(false);
+
+
     return (
         <>
           <div className="w-full h-15 lg:h-10 flex items-center justify-between bg-gray-800 p-3 sticky top-0 z-10 text-black">

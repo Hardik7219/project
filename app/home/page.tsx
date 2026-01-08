@@ -3,6 +3,9 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faList, faThumbsUp } from '@fortawesome/free-solid-svg-icons'
 import Task from '../task/page'
 import { useState } from "react";
+import { getServerSession } from 'next-auth';
+import { redirect } from 'next/navigation';
+
 
 export default function Home() {
     const [sideOptions,setSideOption]=useState<boolean>(false);
