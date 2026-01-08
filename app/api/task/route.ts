@@ -9,6 +9,8 @@ export async function POST(req: Response) {
     try {
         const {id , title,detail} = await req.json();
         
+        if(!title || !detail )
+            return NextResponse.json({message:"fields are empty"})
 
         const session = await getServerSession(authOptions);
 
@@ -34,4 +36,20 @@ export async function POST(req: Response) {
     }
 }
 
+export async function UPDATE(req: Request)
+{
+    const session = await getServerSession(authOptions);
+    if (!session) return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
 
+    const {_id,title,detail}= req.json()
+    await connections();
+
+    if(!title || !detail )
+        return NextResponse.json({message:"fields are empty"})
+    const newTask = await Tasks.findOneAndUpdate({Tasks._id : _id},{title:title},{detail:detail})
+    if(!newTask)
+    {
+        return NextResponse.json({message: "task not exist"})
+
+    }
+}

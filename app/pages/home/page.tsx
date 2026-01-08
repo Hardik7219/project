@@ -1,26 +1,34 @@
 'use client'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
-import { faList, faThumbsUp } from '@fortawesome/free-solid-svg-icons'
+import { faList } from '@fortawesome/free-solid-svg-icons'
 import Task from '../task/page'
-import { getServerSession } from 'next-auth';
-import { redirect } from 'next/navigation';
-import { useSession } from 'next-auth/react';
-import { useEffect,useState } from 'react';
-import Link from 'next/link';
+import ADD from '../addtask/page';
+import { useState } from 'react';
+import UPDATE from '../update/page'; 
+
 export default function Home() {
     const [sideOptions,setSideOption]=useState<boolean>(false);
+    const [add,show]= useState<boolean>(false)
+    const [comp,setComp]= useState<any>("")
+    const Sec : any={
+        add:    <ADD/>,
+        update: <UPDATE/>,
+        dlt:""
+    }
+    
+
     return (
         <>
-            <div className="w-full bg-gray-900 min-h-screen ">
+            <div className="w-full bg-gray-950 min-h-screen ">
                     <div className="flex">
                         <div className="lg:hidden h-10">
-                            <button onClick={()=>{
+                            <button className="text-3xl" onClick={()=>{
                                 setSideOption(true);
-                            }}>{sideOptions ?  "" : <FontAwesomeIcon icon={faList} />}
+                            }}>{sideOptions ?  "" : <FontAwesomeIcon  icon={faList} />}
                             </button>
                         </div>
                         {sideOptions && (
-                            <div className="lg:hidden fixed block h-10" onClick={()=>{
+                            <div className="lg:hidden text-3xl fixed block h-10" onClick={()=>{
                                 setSideOption(false);
                             }}><FontAwesomeIcon icon={faList} />
                             </div>
@@ -29,16 +37,24 @@ export default function Home() {
 
                     <aside className={` ${sideOptions ? "translate-x-0" : "-translate-x-full"} 
                     lg:translate-x-1 rounded-sm gap-2 p-4 
-                    lg:w-40 flex flex-col h-screen  fixed items-center lg:bg-gray-800 m-2`}>
-                        <button className="h-14 w-28 bg-green-400 border rounded-sm
-                        border-[#f39c12] cursor-pointer text-2xl font-bold"><Link href="/pages/addtask">ADD</Link></button>
-                        <button className="h-14 w-28 bg-[#e67e22] border rounded-sm
-                        border-[#f39c12] cursor-pointer text-2xl font-bold">custimize</button>
-                        <button className="h-14 w-28 bg-red-500 border rounded-sm
-                        cursor-pointer text-2xl font-bold">Delete</button>
+                    lg:w-40 flex flex-col h-screen  fixed items-center lg:bg-gray-900 m-2`}>
+                        <button className="h-12 w-28 bg-black border rounded-sm
+                        border-gray-900 cursor-pointer  text-green-400 text-md font-mono" onClick={()=>{
+                        setComp(Sec.add)
+                        show(true)}}>ADD</button>
+                        <button className="h-12 w-28 bg-black border rounded-sm
+                        border-gray-900 cursor-pointer  text-orange-400 text-sm font-mono" onClick={()=>{
+                            setComp(Sec.update)
+                            show(true)
+                            }}>custimize</button>
+                        <button className="h-12 w-28 bg-black border rounded-sm
+                        border-gray-900 cursor-pointer text-md text-red-400 font-mono">Delete</button>
                     </aside>
-                    <div className='w-[88%] flex justify-self-center lg:justify-self-end '>
-                        <Task></Task>
+                    <div className='w-[87%] flex justify-self-center lg:justify-self-end '>
+                        <div className=" w-full flex justify-center items-center ">
+                            {add?  comp : <Task/>}
+                        </div>
+                        
                     </div>
 
             </div>

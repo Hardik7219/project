@@ -2,7 +2,7 @@
 import { useState, useEffect } from "react";
 import { useSession } from "next-auth/react";
 
-export default function ADD() {
+export default function UPDATE() {
         const [user,setUser]= useState("")
         const [title,setTitle]=useState("")
         const [details,setDetails]= useState("")
@@ -16,7 +16,7 @@ export default function ADD() {
     
         const getTask = async ()=>{
             const res = await fetch('/api/task',{
-                method :"POST",
+                method :"UPDATE",
                 headers:{ "Content-Type": "application/json" },
                 body: JSON.stringify({ user: user._id ,title: title,detail:details }),   
             })
@@ -26,7 +26,7 @@ export default function ADD() {
     return (
         <>
             <div className="flex flex-col m-10 justify-center items-center bg-gray-900 w-70 rounded-2xl h-50">
-                <p>add</p>
+                <p>update</p>
                 {msg && (<p>{msg}</p>)}
                 <div className="">
                     <form className="p-2 flex justify-center items-center flex-col gap-5" onSubmit={getTask}>

@@ -17,15 +17,15 @@ export default  function Profile() {
     if (!user) return <Loader></Loader>;
     return (
         <>
-            <div className="w-full p-2 bg-amber-50 min-h-screen ">
-                <div className="w-full bg-amber-950 flex flex-col justify-end lg:h-98 ">
-                    <div className="flex  items-center">
-                        <div className="bg-amber-500 h-56 w-56 rounded-full m-5"></div>
-                        <h1 className="font-bold text-2xl">{user.user.userName}</h1>
+            <div className="w-full p-2 bg-gray-900 min-h-screen ">
+                <div className="w-full bg-gray-800 flex shadow-md shadow-cyan-500/50 rounded-md flex-col justify-end lg:h-98 ">
+                    <div className="flex h-50 items-center">
+                        <div className="bg-amber-500 shadow-md shadow-green-300/50 h-24 w-24 lg:h-56 lg:w-56  rounded-full m-3 lg:m-5 "></div>
+                        <h1 className="font-bold text-2xl border-b-2 shadow-lg shadow-cyan-500/50 border-b-blue-600 ">{user.user.userName}</h1>
                     </div>
 
-                    <div className="flex justify-end p-2 bg-amber-400 h-15 w-full w">
-                        <button className="bg-blue-800 p-2 rounded-sm">EDIT</button>
+                    <div className="flex justify-end p-2 h-10 lg:h-15 w-full w">
+                        <button className="bg-blue-800 inset-ring-2 inset-ring-blue-500 px-5 hover:inset-ring-blue-500/50 hover:text-gray-400 rounded-sm">EDIT</button>
                     </div>
                 </div>
                 <div className="w-full flex justify-center mt-5">
