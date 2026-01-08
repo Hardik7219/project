@@ -1,6 +1,6 @@
 'use client'
 import React, {useState } from "react";
-
+import Link from "next/link";
 
 export default function Signin() {
   const [email,setEmail]=useState<string>("");
@@ -57,6 +57,9 @@ export default function Signin() {
           <input onClick={()=>{setPasshow(!psshow)}} className="h-10 rounded-sm mb-4 ml-4 p-3 w-20 bg-gray-500 text-black" type="button" value={psshow ? "HIDE" : "SHOW"}/>
         </div>
         <input  className="bg-amber-500 p-1 h-10 w-20 text-black hover:text-gray-800 hover:bg-amber-400 rounded-2xl" type="submit" value={"SIGN IN"}/>
+        <div className="flex self-end justify-self-end">
+          <Link className="p-1 h-10 w-20 text-green-400 font-bold hover:text-gray-800 " href="/login">LOGIN</Link>
+        </div>
       </form>
     </div>
   );

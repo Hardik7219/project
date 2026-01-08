@@ -6,7 +6,7 @@ export async function middleware(request: NextRequest) {
   const url = request.nextUrl;
 
   if (token && url.pathname.startsWith("/login")) {
-    return NextResponse.redirect(new URL("/pages/profile", request.url));
+    return NextResponse.redirect(new URL("/pages/home", request.url));
   }
 
   return NextResponse.next()    

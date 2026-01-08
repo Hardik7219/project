@@ -38,7 +38,7 @@ export default function Home() {
                         <button className="h-14 w-28 bg-red-500 border rounded-sm
                         cursor-pointer text-2xl font-bold">Delete</button>
                     </aside>
-                    <div className='w-[90%] flex justify-self-center lg:justify-self-end p-2'>
+                    <div className='w-[88%] flex justify-self-center lg:justify-self-end '>
                         <Task></Task>
                     </div>
 
