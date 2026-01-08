@@ -3,39 +3,13 @@ import React, {useState } from "react";
 import {signIn} from 'next-auth/react'
 
 export default function Signin() {
-  const handleSignup = async () => {
-  const res = await fetch("/api/auth/signup", {
-    method: "POST",
-    headers: { "Content-Type": "application/json" },
-    body: JSON.stringify({
-      userName,
-      email,
-      password,
-    }),
-  });
-
-  const data = await res.json();
-
-  if (!res.ok) {
-    setErr(data.error);
-    return;
-  }
-
-  // ✅ OPTIONAL: auto login after signup
-  await signIn("credentials", {
-    email,
-    password,
-    redirect: true,
-    callbackUrl: "/profile",
-  });
-};
   const [email,setEmail]=useState<string>("");
   const [user,setUser]=useState<string>("");
   const [pswd,setPswd]=useState<string>("");
   const [err,setErr]=useState<string>("");
   const [psshow,setPasshow]=useState<boolean>(false);
 
-  const getValue =(e: React.FormEvent)=>{
+  const getValue =async (e: React.FormEvent)=>{
     e.preventDefault();
     if(!email || !user || !pswd )
     {
@@ -53,7 +27,29 @@ export default function Signin() {
       return;
     }
     setErr("")
-    alert("SIGN IN");
+      const res = await fetch("app/api/auth/signup/route.ts", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({
+        user,
+        email,
+        pswd,
+      }),
+    });
+
+    const data = await res.json();
+
+    if (!res.ok) {
+      setErr(data.error);
+      return;
+    }
+
+    await signIn("credentials", {
+      email,
+      pswd,
+      redirect: true,
+      callbackUrl: "/home",
+    });
   }
 
   return (
