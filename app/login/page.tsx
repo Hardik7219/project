@@ -37,7 +37,7 @@ export default function Signin() {
     if (res?.error) {
       setErr(res.error);
     } else {
-      router.push("/profile");
+      router.push("/pages/profile");
     }
   }
 

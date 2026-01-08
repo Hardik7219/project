@@ -1,10 +1,5 @@
-
-export default function Home1() {
+export default function Page() {
   return (
-    <>
-      <div>
-
-      </div>
-    </>
+    <div></div>
   );
 }
