@@ -4,7 +4,6 @@ import { faList } from '@fortawesome/free-solid-svg-icons'
 import Task from '../task/page'
 import ADD from '@/components/addtask/ADD';
 import { useState } from 'react';
-import UPDATE from '@/components/update/UPDATE'; 
 
 export default function Home() {
     const [sideOptions,setSideOption]=useState<boolean>(false);
@@ -12,7 +11,7 @@ export default function Home() {
     const [comp,setComp]= useState<any>("")
     const Sec : any={
         add:    <ADD/>,
-        update: <UPDATE/>,
+        update: "",
         dlt:""
     }
     

@@ -7,18 +7,12 @@ export default function ADD() {
         const [title,setTitle]=useState("")
         const [details,setDetails]= useState("")
         const [msg,setMsg]=useState("")
-
-        useEffect(() => {
-                fetch("/api/fetch")
-                .then(res => res.json())
-                .then(data => setUser(data));
-            }, []);
-    
+        const {data : session} = useSession();
         const getTask = async ()=>{
             const res = await fetch('/api/task',{
                 method :"POST",
                 headers:{ "Content-Type": "application/json" },
-                body: JSON.stringify({ user: user._id ,title: title,detail:details }),   
+                body: JSON.stringify({ user: session?.user.id ,title: title,detail:details }),   
             })
                 const data = await res.json();
                 setMsg(data.message)

@@ -1,10 +1,8 @@
-import UPDATE from '@/components/update/UPDATE';
-import { useParams } from 'next/navigation';
+import Action from '@/components/Actions/Action';
 import { useState } from 'react';
 
 
 export default function TASK({id,title1,detail}):any {
-        const params1 = useParams();
         const [update,setUpdate] = useState<boolean>(false)
     return (
         <>
@@ -23,7 +21,7 @@ export default function TASK({id,title1,detail}):any {
                                                         <button onClick={()=>setUpdate((prev)=> !prev)} className="bg-green-300 mr-2 px-10 rounded-sm text-black font-bold text-2xl">EDIT</button>
                                                         Complate:<input type="checkbox" className="h-8 w-8"></input>
                                                     </div>
-                                                    {update? <UPDATE id={id}/> : ""} 
+                                                    {update? <Action id={id}/> : ""} 
                                                 </div>
             </div>
         </>

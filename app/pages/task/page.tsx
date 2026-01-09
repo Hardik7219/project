@@ -2,7 +2,6 @@
 
 import Loader from '@/components/loader/Loader';
 import { useEffect,useState } from 'react';
-import UPDATE from '@/components/update/UPDATE';
 import TASK from '@/components/tasks/TASK';
 
 
