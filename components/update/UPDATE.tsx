@@ -1,24 +1,26 @@
 'use client'
 import { useState, useEffect } from "react";
 import { useSession } from "next-auth/react";
+import { useParams } from "next/navigation";
 
-export default function UPDATE() {
+export default function UPDATE({id}):any {
         const [user,setUser]= useState("")
         const [title,setTitle]=useState("")
         const [details,setDetails]= useState("")
         const [msg,setMsg]=useState("")
-
+        const par= useParams();
         useEffect(() => {
                 fetch("/api/fetch")
                 .then(res => res.json())
                 .then(data => setUser(data));
             }, []);
     
-        const getTask = async ()=>{
+        const getTask = async (e: React.FormEvent) =>{
+            e.preventDefault();
             const res = await fetch('/api/task',{
-                method :"UPDATE",
+                method :"PUT",
                 headers:{ "Content-Type": "application/json" },
-                body: JSON.stringify({ user: user._id ,title: title,detail:details }),   
+                body: JSON.stringify({ id: id ,title: title,detail:details }),   
             })
                 const data = await res.json();
                 setMsg(data.message)

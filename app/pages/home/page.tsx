@@ -2,9 +2,9 @@
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faList } from '@fortawesome/free-solid-svg-icons'
 import Task from '../task/page'
-import ADD from '../addtask/page';
+import ADD from '@/components/addtask/ADD';
 import { useState } from 'react';
-import UPDATE from '../update/page'; 
+import UPDATE from '@/components/update/UPDATE'; 
 
 export default function Home() {
     const [sideOptions,setSideOption]=useState<boolean>(false);
@@ -41,7 +41,7 @@ export default function Home() {
                         <button className="h-12 w-28 bg-black border rounded-sm
                         border-gray-900 cursor-pointer  text-green-400 text-md font-mono" onClick={()=>{
                         setComp(Sec.add)
-                        show(true)}}>ADD</button>
+                        show(prev=>!prev)}}>{add? "BACK": "ADD"}</button>
                         <button className="h-12 w-28 bg-black border rounded-sm
                         border-gray-900 cursor-pointer  text-orange-400 text-sm font-mono" onClick={()=>{
                             setComp(Sec.update)

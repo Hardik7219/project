@@ -10,9 +10,8 @@ export default function RootLayout({
 }>) {
 
   return (
-
     <>
-    <Navbar></Navbar>
+        <Navbar></Navbar>
         <AuthProvider>
           {children}     
         </AuthProvider>
