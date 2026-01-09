@@ -36,20 +36,38 @@ export async function POST(req: Response) {
     }
 }
 
-export async function UPDATE(req: Request)
+export async function PUT(req: Request)
 {
     const session = await getServerSession(authOptions);
-    if (!session) return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
+    if (!session) {
+        return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
+    }
 
-    const {_id,title,detail}= req.json()
+    const { id, title, detail } = await req.json();
     await connections();
 
-    if(!title || !detail )
-        return NextResponse.json({message:"fields are empty"})
-    const newTask = await Tasks.findOneAndUpdate({Tasks._id : _id},{title:title},{detail:detail})
-    if(!newTask)
-    {
-        return NextResponse.json({message: "task not exist"})
-
+    if (!id || !title || !detail) {
+        return NextResponse.json(
+            { message: "Fields are empty" },
+            { status: 400 }
+        );
     }
+
+    const updatedTask = await Tasks.findByIdAndUpdate(
+        id,
+        { title, detail },
+        {
+            new: true,
+            lean: true
+        }
+    );
+
+    if (!updatedTask) {
+        return NextResponse.json(
+            { message: "Task not found" },
+            { status: 404 }
+        );
+    }
+
+    return NextResponse.json({ message: "Updated successfully", updatedTask });
 }
