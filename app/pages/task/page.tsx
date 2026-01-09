@@ -2,6 +2,7 @@
 
 import Loader from '@/components/loader/Loader';
 import { useEffect,useState } from 'react';
+import UPDATE from '@/components/update/UPDATE';
 import TASK from '@/components/tasks/TASK';
 
 
@@ -11,7 +12,7 @@ export default function Task() {
         fetch("/api/fetch")
         .then(res => res.json())
         .then(setUserData);
-    },[]);
+    }, []);
     if(!userData) return <div className='flex justify-center items-center w-full h-screen'><Loader></Loader></div>
     return (
         <>

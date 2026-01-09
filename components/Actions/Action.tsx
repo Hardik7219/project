@@ -4,9 +4,6 @@ export default function Action({id,mod}) {
     const [title,setTitle]=useState("")
     const [details,setDetails]= useState("")
     const [msg,setMsg]=useState("")
-    
-
-
     return (
         <>
             <div>

@@ -1,3 +1,4 @@
+import NextAuth from "next-auth";
 import {Users} from '@/lib/user.model'
 import {connections} from '@/lib/db'
 import { NextResponse } from "next/server";

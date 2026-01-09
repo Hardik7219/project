@@ -1,9 +1,11 @@
 'use client'
 import Task from '../task/page'
+import { useSession } from 'next-auth/react';
 import { useEffect,useState } from 'react';
 import Loader from '@/components/loader/Loader';
 
 export default  function Profile() {
+    const { data: session } = useSession();
     const [user, setUser] = useState<any>(null);
 
     useEffect(() => {
