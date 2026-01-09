@@ -18,7 +18,7 @@ export default function Task() {
             <main className="bg-zinc-950 flex justify-self-center lg:justify-self-end p-2 rounded-md w-full  min-h-screen">
                     <div className="w-full p-1 lg:w-full bg-gray-900 flex flex-col items-center rounded-sm">
                         {!userData?.tasks || userData.tasks.length === 0 ? (    
-                            <p>NO task</p>
+                            <p className='text-2xl font-bold font-sans text-red-500'>NO Task Yet</p>
                         ) : (
                             userData.tasks.map((t: any) => (
                                 <TASK key={t._id} title1={t.title} detail={t.detail} id={t._id}/>

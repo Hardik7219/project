@@ -5,17 +5,19 @@ declare module "next-auth" {
     user: {
       id: string;
       email?: string | null;
-      name?: string | null;
+      userName?: string | null;
     };
   }
 
   interface User {
     id: string;
+    userName:string;
   }
 }
 
 declare module "next-auth/jwt" {
   interface JWT {
     id: string;
+    userName:string;
   }
 }

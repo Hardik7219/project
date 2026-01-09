@@ -3,11 +3,11 @@ import Task from '../task/page'
 import { useSession } from 'next-auth/react';
 import { useEffect,useState } from 'react';
 import Loader from '@/components/loader/Loader';
+import Link from 'next/link';
 
 export default  function Profile() {
     const { data: session } = useSession();
     const [user, setUser] = useState<any>(null);
-
     useEffect(() => {
         fetch("/api/fetch")
         .then(res => res.json())
@@ -25,7 +25,7 @@ export default  function Profile() {
                     </div>
 
                     <div className="flex justify-end p-2 h-10 lg:h-15 w-full w">
-                        <button className="bg-blue-800 inset-ring-2 inset-ring-blue-500 px-5 hover:inset-ring-blue-500/50 hover:text-gray-400 rounded-sm">EDIT</button>
+                        <button className="bg-blue-800 inset-ring-2 inset-ring-blue-500 px-5 hover:inset-ring-blue-500/50 hover:text-gray-400 rounded-sm"><Link href="/pages/profileEdit">EDIT</Link></button>
                     </div>
                 </div>
                 <div className="w-full flex justify-center mt-5">
