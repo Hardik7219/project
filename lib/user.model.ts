@@ -7,7 +7,10 @@ const userSchema = new mongoose.Schema({
     task:[{
         type : mongoose.Schema.Types.ObjectId,
         ref: "Tasks"
-    }]
+    }],
+    avtar: {
+        type: String
+    }
 });
 
 export const Users = (mongoose.models && mongoose.models.User)

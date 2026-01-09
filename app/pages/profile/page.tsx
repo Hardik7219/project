@@ -6,7 +6,6 @@ import Loader from '@/components/loader/Loader';
 import Link from 'next/link';
 
 export default  function Profile() {
-    const { data: session } = useSession();
     const [user, setUser] = useState<any>(null);
     useEffect(() => {
         fetch("/api/fetch")
