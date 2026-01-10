@@ -46,13 +46,23 @@ export const authOptions : NextAuthOptions = {
         signIn : "/login"
     },
     callbacks: {
-    async jwt({ token, user }) {
-        if (user) {
-            token.id = user.id;
-            token.userName= user.userName;
+    async jwt({ token, user, trigger }) {
+    if (user) {
+        token.id = user.id;
+        token.userName = user.userName;
+    }
+
+    if (trigger === "update" && token.id) {
+        await connections();
+        const dbUser = await Users.findById(token.id);
+
+        if (dbUser) {
+            token.userName = dbUser.userName;
         }
-        return token;
-    },
+    }
+
+    return token;
+},
 
     async session({ session, token }) {
         if (session.user) {

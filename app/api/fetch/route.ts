@@ -1,5 +1,7 @@
 import {Users} from '@/lib/user.model'
 import {connections} from '@/lib/db'
+import fs from 'fs/promises'
+import path from 'path'
 import { NextResponse } from "next/server";
 import { getServerSession } from "next-auth";
 import { authOptions } from "../auth/[...nextauth]/route";
@@ -54,7 +56,7 @@ export async function PUT(req: Request) {
     const bytes = await avatarFile.arrayBuffer();
     const buffer = Buffer.from(bytes);
 
-    const uploadDir = path.join(process.cwd(), "public/avatars");
+    const uploadDir = path.join(process.cwd(), "public/avatar");
     await fs.mkdir(uploadDir, { recursive: true });
 
     const fileName = `${session.user.id}-${Date.now()}.png`;
@@ -62,7 +64,7 @@ export async function PUT(req: Request) {
 
     await fs.writeFile(filePath, buffer);
 
-    updateData.avatar = `/avatars/${fileName}`;
+    updateData.avatar = `/avatar/${fileName}`;
   }
 
   if (Object.keys(updateData).length === 0) {
