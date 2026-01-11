@@ -6,7 +6,8 @@ const taskSchema= new mongoose.Schema({
         ref: "Users"
     }],
     title : String,
-    detail: String
+    detail: String,
+    isDone : Boolean
 })
 
 export const Tasks = (mongoose.models && mongoose.models.Tasks)

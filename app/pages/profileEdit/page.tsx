@@ -2,14 +2,18 @@
 import React, { useEffect, useState } from 'react';
 import Task from '../task/page'
 import { useSession } from 'next-auth/react';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
+import { faImage } from '@fortawesome/free-solid-svg-icons'
+
 export default function ProfileEdit() {
-    const {data:session}= useSession();
+    const {data:session,status}= useSession();
     const [avatar, setAvatar] = useState<File | null>(null);
     const [name, setName] = useState("");
     const [email, setEmail] = useState("");
     const {update} = useSession();
     const [user,setUser]=useState('')
     const [userEmail,setUserEmail]=useState('')
+    
     const change= ()=>{
         setUser(session?.user.userName);
         setUserEmail(session?.user.email)
@@ -37,20 +41,26 @@ export default function ProfileEdit() {
             <div className="bg-zinc-900 fixed inset-0 z-50 h-screen w-full">
                 <div className="bg-gray-900">
                     <div className=" ">
-                        <div className="bg-gray-900 rounded-sm mb-10 p-10 flex ">
-                            <div className=" h-60 w-60">
-                                <div className="bg-blue-950 h-40 w-40 overflow-hidden flex items-end justify-end rounded-full">
-                                    <input className=' w-full h-full bg-transparent' type="file" accept="image/*"
-                                            onChange={(e) => setAvatar(e.target.files?.[0] || null)}/>
+                        <div className="bg-gray-900 rounded-sm mb-10 lg:p-10 flex  ">
+                            <div className=" h-60 w-60 flex justify-center items-center ">
+                                <div className=' h-50 w-50 flex items-center rounded-full justify-center  '>
+                                    <div className={` border-amber-500 border-2 bg-center bg-cover  h-40 w-40 overflow-hidden  rounded-full`} style={{backgroundImage: `url(${session?.user.avatar})`,}}>
+                                    <div className=' m-30 bg-amber-50 flex justify-end items-end'>
+                                        <input className='cursor-pointer absolute h-20 w-20 opacity-0' type="file" accept="image/*" onChange={(e) => setAvatar(e.target.files?.[0] || null)}/> 
+                                        <FontAwesomeIcon icon={faImage} style={{fontSize: "30px"}}/>
+                                    </div>
+                                    </div>
                                 </div>
                             </div>
-                            <div className=" h-60 w-60">
-                                <input type="text" placeholder={user} onChange={(e) => setName(e.target.value)} className="m-2 outline-none text-white font-bold font-mono" ></input>
-                                <input type="text" placeholder={userEmail} onChange={(e) => setEmail(e.target.value)} className="m-2 outline-none font-bold font-mono text-white" ></input>      
+                            <div className="h-60 flex justify-center items-center w-60">
+                                <div className=''>
+                                    <label className='text-emerald-500 font-bold font-sans text-2xl'>UserName:</label><input type="text" placeholder={user} onChange={(e) => setName(e.target.value)} className="m-2 outline-none text-white font-bold font-mono" ></input>
+                                    <label className='text-emerald-500 font-bold font-sans text-2xl'>Email:</label><input type="text" placeholder={userEmail} onChange={(e) => setEmail(e.target.value)} className="m-2 outline-none font-bold font-mono text-white" ></input>      
+                                </div>
                             </div>
-                            <button onClick={submit} >update</button>
                         </div>
-                        <div className="bg-gray-900 rounded-sm">
+                            <button onClick={submit} className='flex m-10 justify-self-end lg:self-center justify-center items-center rounded-sm text-black font-mono font-bold hover:text-gray-600 shadow-red-600 shadow-md hover:cursor-pointer bg-blue-500 h-10 w-20' >update</button>
+                        <div className="bg-gray-900 rounded-sm ">
                             <Task></Task>
                         </div>
                         

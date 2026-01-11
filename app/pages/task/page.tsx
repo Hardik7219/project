@@ -21,7 +21,7 @@ export default function Task() {
                             <p className='text-2xl font-bold font-sans text-red-500'>NO Task Yet</p>
                         ) : (
                             userData.tasks.map((t: any) => (
-                                <TASK key={t._id} title1={t.title} detail={t.detail} id={t._id}/>
+                                <TASK key={t._id} title1={t.title} detail={t.detail} id={t._id} isDone={t.isDone}/>
                             ))
                         )}
                     </div>
