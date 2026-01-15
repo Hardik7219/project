@@ -29,7 +29,7 @@ export async function POST(req: Request) {
             title:title,
             detail:detail
         })
-        user.task.push(task._id);
+        user1.task.push(task._id);
         await user1.save();
         if(task)
             return NextResponse.json({message:"Task ADD"})
