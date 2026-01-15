@@ -116,7 +116,7 @@ export async function PATCH(req : Request)
             lean: true
         })
         if(!isTask)
-        {
+        { 
             return NextResponse.json({ message: "Task not found" }, { status: 404 });
         }
         return Response.json({message:"task tick"});
