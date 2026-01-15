@@ -8,7 +8,7 @@ export default function TASK({id,title1,detail,isStar}):any {
         const isTaskDone = async ()=>{
                 setStar(current => !current)
 
-            const res = await fetch('/api/task',{
+            const res = await fetch('/api/achiv',{
                 method : 'PATCH',
                 headers:{ "Content-Type": "application/json" },
                 body : JSON.stringify({id : id,isStar : isStar1  })

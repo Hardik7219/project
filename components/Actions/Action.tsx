@@ -7,7 +7,7 @@ export default function Action({id,onClose}) {
             const [msg,setMsg]=useState("")
 
             const deleteAchievement= async () =>{
-                const res = await fetch('/api/task',{
+                const res = await fetch('/api/achiv',{
                     method :"DELETE",
                     headers:{ "Content-Type": "application/json" },
                     body: JSON.stringify({id:id}),   
@@ -17,7 +17,7 @@ export default function Action({id,onClose}) {
                 }
             const getAchievement = async (e: React.FormEvent) =>{
                 e.preventDefault();
-                const res = await fetch('/api/task',{
+                const res = await fetch('/api/achiv',{
                     method :"PUT",
                     headers:{ "Content-Type": "application/json" },
                     body: JSON.stringify({ id: id ,title: title,detail:details }),   

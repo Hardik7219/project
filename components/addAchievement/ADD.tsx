@@ -9,10 +9,10 @@ export default function ADD() {
         const {data : session} = useSession();
         const getTask = async (e: React.FormEvent) =>{
             e.preventDefault();
-            const res = await fetch('/api/task',{
+            const res = await fetch('/api/achiv',{
                 method :"POST",
                 headers:{ "Content-Type": "application/json" },
-                body: JSON.stringify({ user: session?.user.id ,title: title,detail:details }),   
+                body: JSON.stringify({ user : session?.user.id ,title: title,detail:details }),   
             })
                 const data = await res.json();
                 setMsg(data.message)

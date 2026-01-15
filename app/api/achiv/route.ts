@@ -1,10 +1,9 @@
 import { Users } from "@/lib/user.model";
 import { connections } from "@/lib/db";
 import { NextResponse } from "next/server";
-import { Achivs } from "@/lib/task.model";
+import { Achivs } from "@/lib/achiv.model";
 import { getServerSession } from "next-auth";
 import { authOptions } from "../auth/[...nextauth]/route";
-import { JWT } from "next-auth/jwt";
 
 
 export async function POST(req: Request) {
@@ -22,14 +21,14 @@ export async function POST(req: Request) {
 
         await connections();
 
-        const user1 = await Users.findById(session.user.id).select("-password");
+        const user1 = await Users.findById(user).select("-password");
 
         const achiv = await Achivs.create({
-            user: user1._id,
+            user: [user1._id],
             title:title,
             detail:detail
         })
-        user1.task.push(achiv._id);
+        user1.achiv.push(achiv._id);
         await user1.save();
         if(achiv)
             return NextResponse.json({message:"Task ADD"})
