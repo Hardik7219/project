@@ -7,12 +7,13 @@ export default function ADD() {
         const [details,setDetails]= useState("")
         const [msg,setMsg]=useState("")
         const {data : session} = useSession();
+        const [date1,setDate1]= useState()
         const getTask = async (e: React.FormEvent) =>{
             e.preventDefault();
             const res = await fetch('/api/achiv',{
                 method :"POST",
                 headers:{ "Content-Type": "application/json" },
-                body: JSON.stringify({ user : session?.user.id ,title: title,detail:details }),   
+                body: JSON.stringify({ user : session?.user.id ,title: title,detail:details , createDate : date1 }),   
             })
                 const data = await res.json();
                 setMsg(data.message)
@@ -27,6 +28,7 @@ export default function ADD() {
                         <form className="p-2 flex justify-center items-center flex-col gap-5" onSubmit={getTask}>
                             <input className=" p-1 transparent outline-none border-black border-2 rounded-sm text-white"  onChange={(e)=>setTitle(e.target.value)}  type="text" placeholder="Title"></input>
                             <textarea onChange={(e)=>setDetails(e.target.value)} className=" transparent resize-none outline-none border-black border-2 p-1 rounded-sm text-white" placeholder="Detail"></textarea>
+                            <input type="date" onChange={(e)=>{setDate1(e.target.value)}}></input>
                             <input type="submit" className=" rounded-sm p-1 text-black font-bold flex justify-center items-center  bg-cyan-500 shadow-lg shadow-cyan-500/50 h-10 w-30 " value="Add Achievement"/>
                         </form>
                     </div>

@@ -7,8 +7,10 @@ const achivSchema= new mongoose.Schema({
     }],
     title : String,
     detail: String,
-    isStar : Boolean
-})
+    isStar : Boolean,
+    createDate: Date,
+}
+)
 
 export const Achivs = (mongoose.models && mongoose.models.Achivs)
     ? (mongoose.models.Achivs as mongoose.Model<unknown>)
