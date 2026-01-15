@@ -1,8 +1,8 @@
 'use client'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faList } from '@fortawesome/free-solid-svg-icons'
-import Task from '../task/page'
-import ADD from '@/components/addtask/ADD';
+import Task from '../achievements/page'
+import ADD from '@/components/addAchievement/ADD';
 import { useState } from 'react';
 import Modal from '@/components/popup/Modal';
 
@@ -34,11 +34,7 @@ export default function Home() {
                     lg:translate-x-1 rounded-sm gap-2 p-4 
                     lg:w-40 flex flex-col h-screen  fixed items-center lg:bg-gray-900 m-2`}>
                         <button className="h-12 w-28 bg-black border rounded-sm
-                        border-gray-900 cursor-pointer  text-green-400 text-md font-mono" onClick={()=>showAdd(true)} >ADD TASK</button>
-                        <button className="h-12 w-28 bg-black border rounded-sm
-                        border-gray-900 cursor-pointer  text-orange-400 text-sm font-mono" >custimize</button>
-                        <button className="h-12 w-28 bg-black border rounded-sm
-                        border-gray-900 cursor-pointer text-md text-red-400 font-mono">Delete</button>
+                        border-gray-900 cursor-pointer  text-green-400 text-md font-mono" onClick={()=>showAdd(true)} >Add Achievement</button>
                     </aside>
                     <div className='w-[90%] flex justify-self-center lg:justify-self-end '>
                         <div className=" w-full flex justify-center items-center ">

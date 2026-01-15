@@ -4,9 +4,9 @@ const userSchema = new mongoose.Schema({
     userName: String,
     email: String,
     password: String,
-    task:[{
+    achiv:[{
         type : mongoose.Schema.Types.ObjectId,
-        ref: "Tasks"
+        ref: "Achivs"
     }],
     avatar: {
         type: String

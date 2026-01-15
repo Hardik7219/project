@@ -2,16 +2,16 @@ import Action from '@/components/Actions/Action';
 import { useState } from 'react';
 import Modal from '@/components/popup/Modal';
 
-export default function TASK({id,title1,detail,isDone}):any {
+export default function TASK({id,title1,detail,isStar}):any {
         const [showAction, setShowAction] = useState(false);
-        const [isDone1,setDone] = useState<boolean>(!isDone);
+        const [isStar1,setStar ] = useState<boolean>(!isStar);
         const isTaskDone = async ()=>{
-                setDone(current => !current)
+                setStar(current => !current)
 
             const res = await fetch('/api/task',{
                 method : 'PATCH',
                 headers:{ "Content-Type": "application/json" },
-                body : JSON.stringify({id : id,isDone : isDone1  })
+                body : JSON.stringify({id : id,isStar : isStar1  })
             })
             const data = await res.json();
             console.log(data)
@@ -30,7 +30,7 @@ export default function TASK({id,title1,detail,isDone}):any {
                     </div>
                     <div className="mt-2 flex justify-end p-1">
                         <button onClick={() => setShowAction(true)} className="bg-green-300 mr-2 px-10 rounded-sm text-black font-bold text-2xl">EDIT</button>
-                        <p className={`${isDone1? 'text-red-500' : 'text-green-500'}`}>{isDone1 ? "incomplet" : 'complate'}</p><input type="checkbox"  onChange={isTaskDone} className="h-8 w-8"></input>
+                        <p className={`${isStar1? 'text-red-500' : 'text-green-500'}`}>{isStar1 ? "" : 'Star'}</p><input type="checkbox"  onChange={isTaskDone} className="h-8 w-8"></input>
                     </div>
                         {showAction && (
                                 <Modal onClose={() => setShowAction(false)}>

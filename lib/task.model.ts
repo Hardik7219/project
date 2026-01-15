@@ -1,15 +1,15 @@
 import mongoose from "mongoose";
 
-const taskSchema= new mongoose.Schema({
+const achivSchema= new mongoose.Schema({
     user: [{
         type : mongoose.Schema.Types.ObjectId,
         ref: "Users"
     }],
     title : String,
     detail: String,
-    isDone : Boolean
+    isStar : Boolean
 })
 
-export const Tasks = (mongoose.models && mongoose.models.Tasks)
-    ? (mongoose.models.Tasks as mongoose.Model<unknown>)
-    : mongoose.model('Task', taskSchema);
+export const Achivs = (mongoose.models && mongoose.models.Achivs)
+    ? (mongoose.models.Achivs as mongoose.Model<unknown>)
+    : mongoose.model('Achiv', achivSchema);

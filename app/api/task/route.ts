@@ -1,7 +1,7 @@
 import { Users } from "@/lib/user.model";
 import { connections } from "@/lib/db";
 import { NextResponse } from "next/server";
-import { Tasks } from "@/lib/task.model";
+import { Achivs } from "@/lib/task.model";
 import { getServerSession } from "next-auth";
 import { authOptions } from "../auth/[...nextauth]/route";
 import { JWT } from "next-auth/jwt";
@@ -24,14 +24,14 @@ export async function POST(req: Request) {
 
         const user1 = await Users.findById(session.user.id).select("-password");
 
-        const task = await Tasks.create({
+        const achiv = await Achivs.create({
             user: user1._id,
             title:title,
             detail:detail
         })
-        user1.task.push(task._id);
+        user1.task.push(achiv._id);
         await user1.save();
-        if(task)
+        if(achiv)
             return NextResponse.json({message:"Task ADD"})
     } 
     catch (error) {
@@ -56,7 +56,7 @@ export async function PUT(req: Request)
         );
     }
 
-    const updatedTask = await Tasks.findByIdAndUpdate(
+    const updatedAchiv = await Achivs.findByIdAndUpdate(
         id,
         { title, detail },
         {
@@ -65,14 +65,14 @@ export async function PUT(req: Request)
         }
     );
 
-    if (!updatedTask) {
+    if (!updatedAchiv) {
         return NextResponse.json(
-            { message: "Task not found" },
+            { message: "Achievement not found" },
             { status: 404 }
         );
     }
 
-    return NextResponse.json({ message: "Updated successfully", updatedTask });
+    return NextResponse.json({ message: "Updated successfully", updatedAchiv });
 }
 
 
@@ -86,15 +86,15 @@ export async function DELETE(req: Request)
     const {id} = await req.json();
     await connections();
 
-    const deleteTask = await Tasks.findByIdAndDelete({_id:id,user:session.user.id})
+    const deleteAchiv = await Achivs.findByIdAndDelete({_id:id,user:session.user.id})
 
-        if (!deleteTask) {
+        if (!deleteAchiv) {
         return NextResponse.json(
             { message: "Task not found" },
             { status: 404 }
         );
     }
-    return NextResponse.json({message:"delete",deleteTask})
+    return NextResponse.json({message:"delete",deleteAchiv})
 }
 
 export async function PATCH(req : Request)
@@ -104,21 +104,21 @@ export async function PATCH(req : Request)
         return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
     }
 
-    const { id, isDone } = await req.json();
+    const { id, isStar } = await req.json();
     await connections();
 
-    const isTask = await Tasks.findByIdAndUpdate(id,
+    const isAchiv = await Achivs.findByIdAndUpdate(id,
         {
-            isDone:isDone
+            isStar:isStar
         },  
         {
             new: true,
             lean: true
         })
-        if(!isTask)
+        if(!isAchiv)
         { 
-            return NextResponse.json({ message: "Task not found" }, { status: 404 });
+            return NextResponse.json({ message: "Achievement not found" }, { status: 404 });
         }
-        return Response.json({message:"task tick"});
+        return Response.json({message:"Achievement is now Star"});
 
 }

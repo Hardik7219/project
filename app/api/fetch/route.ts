@@ -5,7 +5,7 @@ import path from 'path'
 import { NextResponse } from "next/server";
 import { getServerSession } from "next-auth";
 import { authOptions } from "../auth/[...nextauth]/route";
-import { Tasks } from "@/lib/task.model";
+import { Achivs } from "@/lib/task.model";
 export async function GET()
 {
     const session = await getServerSession(authOptions);
@@ -18,10 +18,10 @@ export async function GET()
 
     const user = await Users.findById(session.user.id).select("-password");
 
-    const tasks= await Tasks.find({ user : session.user.id })
+    const achivs= await Achivs.find({ user : session.user.id })
 
 
-    return NextResponse.json({user,tasks,});
+    return NextResponse.json({user,achivs,});
 }
 
 

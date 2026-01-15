@@ -1,5 +1,5 @@
 'use client'
-import Task from '../task/page'
+import Task from '../achievements/page'
 import { useSession } from 'next-auth/react';
 import { useEffect,useState } from 'react';
 import Loader from '@/components/loader/Loader';
