@@ -9,7 +9,6 @@ export default function TASK({id,title1,detail,isStar,date}):any {
         const [isStar1,setStar ] = useState<boolean>(!isStar);
         const isAchivDone = async ()=>{
                 setStar(current => !current)
-
             const res = await fetch(`/api/achiv`,{
                 method : 'PATCH',
                 headers:{ "Content-Type": "application/json" },
@@ -24,8 +23,7 @@ export default function TASK({id,title1,detail,isStar,date}):any {
                     <div className="bg-gray-800 rounded-md mt-2 p-2 min-h-56 h-auto w-[95%]">
                     <div className="w-full">
                         <h1 className="font-bold text-cyan-600 text-lg">{title1}</h1>
-                        <p>{date}</p>
-
+                        <p className='flex justify-self-end self-end'>{}</p>
                     </div>
                     <div className=" p-1 rounded-sm bg-gray-500 mt-2 w-full min-h-30 h-auto text-wrap tracking-tighter overflow-hidden">
                         <p className="font-mono text-amber-100">{detail}</p>

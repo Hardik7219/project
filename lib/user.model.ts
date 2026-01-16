@@ -8,9 +8,7 @@ const userSchema = new mongoose.Schema({
         type : mongoose.Schema.Types.ObjectId,
         ref: "Achivs"
     }],
-    avatar: {
-        type: String
-    }
+    avatar:String
 });
 
 export const Users = (mongoose.models && mongoose.models.User)

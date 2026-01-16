@@ -6,33 +6,24 @@ import { NextResponse } from "next/server";
 import { getServerSession } from "next-auth";
 import { authOptions } from "../auth/[...nextauth]/route";
 import { Achivs } from "@/lib/achiv.model";
+import { create } from 'domain';
 export async function GET(req : Request)
 {
     const session = await getServerSession(authOptions);
     const { searchParams } = new URL(req.url);
-    const date1 = searchParams.get("date1");
+    const date = searchParams.get("date");
     if (!session) {
         return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
     }
 
     await connections();
 
-    const user = await Users.findById(session.user.id).select("-password");
-
-    let achivs;
-    if(date1)
-    {
-      const start = new Date(date1);
-      start.setHours(0,0,0,0) ;
-      const end = new Date(date1);
-      end.setHours(23,59,59,999) ;
-      achivs = await Achivs.find({user : session?.user.id , createdAt: { $gte: start, $lte: end }});
-    }
+    const user  = await Users.findById(session.user.id).select("-password");
+    let achivs
+    if(date)
+      achivs = await Achivs.find({user : session.user.id , createDate : new Date(date)})
     else
-    {
       achivs= await Achivs.find({ user : session.user.id });
-    }
-
     return NextResponse.json({user,achivs});
 }
 

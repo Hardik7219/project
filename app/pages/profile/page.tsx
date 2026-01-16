@@ -1,5 +1,5 @@
 'use client'
-import Task from '../achievements/page'
+import Achiv from '../achievements/page'
 import { useSession } from 'next-auth/react';
 import { useEffect,useState } from 'react';
 import Loader from '@/components/loader/Loader';
@@ -20,9 +20,9 @@ export default  function Profile() {
             <div className="w-full p-2 bg-gray-900 min-h-screen ">
                 <div className="w-full bg-gray-800 flex shadow-md shadow-cyan-500/50 rounded-md flex-col justify-end lg:h-98 ">
                     <div className="flex h-50 items-center">
-                        <div className={`bg-center bg-cover  rounded-full shadow-md shadow-green-300/50 h-24 w-24 lg:h-56 lg:w-56 m-3 lg:m-5 `}   style={{backgroundImage: `url(${session?.user?.avatar}?v=${Date.now()})`,}} >
+                        <div className={`bg-center bg-cover  rounded-full shadow-md shadow-green-300/50 h-24 w-24 lg:h-56 lg:w-56 m-3 lg:m-5 `}   style={{backgroundImage: `url(${user.user.avatar})`,}} >
                         </div>
-                        <h1 className="font-bold text-2xl border-b-2 shadow-md shadow-cyan-500/50 border-b-blue-600">{user.user.userName}</h1>
+                        <h1 className="font-bold text-2xl border-b-2 shadow-md shadow-cyan-500/50 border-b-blue-600">{user.user.userName}{session?.user.avatar}</h1>
                     </div>
 
                     <div className="flex justify-end p-2 h-10 lg:h-15 w-full w">
@@ -30,7 +30,7 @@ export default  function Profile() {
                     </div>
                 </div>
                 <div className="w-full flex justify-center mt-5">
-                    <Task></Task>
+                    <Achiv ></Achiv>
                 </div>
             </div>
         </>
