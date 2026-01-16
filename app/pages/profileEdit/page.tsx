@@ -13,11 +13,8 @@ export default function ProfileEdit() {
     const {update} = useSession();
     const [user,setUser]=useState('')
     const [userEmail,setUserEmail]=useState('')
+    const [prf,setPrf]=useState<string>(session?.user.avatar)
     
-    const change= ()=>{
-        setUser(session?.user.userName);
-        setUserEmail(session?.user.email)
-    }
 
     const submit = async (e: React.FormEvent) => {
         e.preventDefault();
@@ -32,9 +29,13 @@ export default function ProfileEdit() {
             body: formData
         });
         const data = await res.json()
-        await update();
+        await update(data);
     }
-    useEffect(change)
+    useEffect( ()=>{
+        setUser(session?.user.userName);
+        setUserEmail(session?.user.email)
+        setPrf(session?.user.avatar)
+    },[status,session])
 
     return (
         <>
@@ -44,7 +45,7 @@ export default function ProfileEdit() {
                         <div className="bg-gray-900 rounded-sm mb-10 lg:p-10 flex  ">
                             <div className=" h-60 w-60 flex justify-center items-center ">
                                 <div className=' h-50 w-50 flex items-center rounded-full justify-center  '>
-                                    <div className={` border-amber-500 border-2 bg-center bg-cover  h-40 w-40 overflow-hidden  rounded-full`} style={{backgroundImage: `url(${session?.user.avatar})`,}}>
+                                    <div className={` border-amber-500 border-2 bg-center bg-cover  h-40 w-40 overflow-hidden  rounded-full`} style={{backgroundImage: `url(${prf})`,}}>
                                     <div className=' m-30 bg-amber-50 flex justify-end items-end'>
                                         <input className='cursor-pointer absolute h-20 w-20 opacity-0' type="file" accept="image/*" onChange={(e) => setAvatar(e.target.files?.[0] || null)}/> 
                                         <FontAwesomeIcon icon={faImage} style={{fontSize: "30px"}}/>

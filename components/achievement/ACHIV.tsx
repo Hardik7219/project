@@ -1,11 +1,13 @@
 import Action from '@/components/Actions/Action';
 import { useState } from 'react';
 import Modal from '@/components/popup/Modal';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faStar } from '@fortawesome/free-solid-svg-icons';
 
 export default function TASK({id,title1,detail,isStar}):any {
         const [showAction, setShowAction] = useState(false);
         const [isStar1,setStar ] = useState<boolean>(!isStar);
-        const isTaskDone = async ()=>{
+        const isAchivDone = async ()=>{
                 setStar(current => !current)
 
             const res = await fetch('/api/achiv',{
@@ -30,7 +32,9 @@ export default function TASK({id,title1,detail,isStar}):any {
                     </div>
                     <div className="mt-2 flex justify-end p-1">
                         <button onClick={() => setShowAction(true)} className="bg-green-300 mr-2 px-10 rounded-sm text-black font-bold text-2xl">EDIT</button>
-                        <p className={`${isStar1? 'text-red-500' : 'text-green-500'}`}>{isStar1 ? "" : 'Star'}</p><input type="checkbox"  onChange={isTaskDone} className="h-8 w-8"></input>
+                        <div className=' text-2xl'>
+                            <FontAwesomeIcon icon={faStar} onClick={isAchivDone} className={`${isStar1 ? 'text-amber-50' :'text-green-500'} hover:scale-115`} />
+                        </div>
                     </div>
                         {showAction && (
                                 <Modal onClose={() => setShowAction(false)}>
