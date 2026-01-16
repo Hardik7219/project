@@ -50,9 +50,9 @@ export const authOptions : NextAuthOptions = {
     if (user) {
         token.id = user.id;
         token.userName = user.userName;
+        token.avatar=user.avatar;
     }
 
-    if (trigger === "update" && token.id) {
         await connections();
         const dbUser = await Users.findById(token.id);
 
@@ -60,7 +60,7 @@ export const authOptions : NextAuthOptions = {
             token.userName = dbUser.userName;
             token.avatar= dbUser.avatar;
         }
-    }
+    
 
     return token;
 },

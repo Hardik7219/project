@@ -8,7 +8,7 @@ import { authOptions } from "../auth/[...nextauth]/route";
 
 export async function POST(req: Request) {
     try {
-        const {user,title,detail,createDate} = await req.json();
+        const {user , title,detail} = await req.json();
         
         if(!title || !detail )
             return NextResponse.json({message:"fields are empty"})
@@ -20,19 +20,18 @@ export async function POST(req: Request) {
         }
 
         await connections();
-        const date = createDate ? new Date(`${createDate}`) : Date.now()
+
         const user1 = await Users.findById(user).select("-password");
 
         const achiv = await Achivs.create({
             user: [user1._id],
             title:title,
-            detail:detail,
-            createDate : date
+            detail:detail
         })
         user1.achiv.push(achiv._id);
         await user1.save();
         if(achiv)
-            return NextResponse.json({message:"Task ADD"})
+            return NextResponse.json({message:"Achievement ADD"})
     } 
     catch (error) {
         return NextResponse.json(error)
@@ -90,7 +89,7 @@ export async function DELETE(req: Request)
 
         if (!deleteAchiv) {
         return NextResponse.json(
-            { message: "Task not found" },
+            { message: "Achievement not found" },
             { status: 404 }
         );
     }
