@@ -1,3 +1,4 @@
+import { timeStamp } from "console";
 import mongoose from "mongoose";
 
 const achivSchema= new mongoose.Schema({
@@ -8,8 +9,8 @@ const achivSchema= new mongoose.Schema({
     title : String,
     detail: String,
     isStar : Boolean,
-    createDate: Date,
-}
+    createDate: Date
+},{timestamps: true}
 )
 
 export const Achivs = (mongoose.models && mongoose.models.Achivs)

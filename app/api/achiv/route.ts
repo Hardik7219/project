@@ -20,7 +20,7 @@ export async function POST(req: Request) {
         }
 
         await connections();
-        const date = createDate ? Date.now(`${createDate}`) : Date.now()
+        const date = createDate ? new Date(`${createDate}`) : Date.now()
         const user1 = await Users.findById(user).select("-password");
 
         const achiv = await Achivs.create({

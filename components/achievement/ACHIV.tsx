@@ -4,13 +4,13 @@ import Modal from '@/components/popup/Modal';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faStar } from '@fortawesome/free-solid-svg-icons';
 
-export default function TASK({id,title1,detail,isStar}):any {
+export default function TASK({id,title1,detail,isStar,date}):any {
         const [showAction, setShowAction] = useState(false);
         const [isStar1,setStar ] = useState<boolean>(!isStar);
         const isAchivDone = async ()=>{
                 setStar(current => !current)
 
-            const res = await fetch('/api/achiv',{
+            const res = await fetch(`/api/achiv`,{
                 method : 'PATCH',
                 headers:{ "Content-Type": "application/json" },
                 body : JSON.stringify({id : id,isStar : isStar1  })
@@ -24,7 +24,7 @@ export default function TASK({id,title1,detail,isStar}):any {
                     <div className="bg-gray-800 rounded-md mt-2 p-2 min-h-56 h-auto w-[95%]">
                     <div className="w-full">
                         <h1 className="font-bold text-cyan-600 text-lg">{title1}</h1>
-                        <p></p>
+                        <p>{date}</p>
 
                     </div>
                     <div className=" p-1 rounded-sm bg-gray-500 mt-2 w-full min-h-30 h-auto text-wrap tracking-tighter overflow-hidden">
