@@ -10,7 +10,7 @@ export async function GET(req : Request)
 {
     const session = await getServerSession(authOptions);
     const { searchParams } = new URL(req.url);
-    const date = searchParams.get("date");
+    const date1 = searchParams.get("date1");
     if (!session) {
         return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
     }
@@ -20,20 +20,20 @@ export async function GET(req : Request)
     const user = await Users.findById(session.user.id).select("-password");
 
     let achivs;
-    if(date)
+    if(date1)
     {
-      const start = new Date(date);
+      const start = new Date(date1);
       start.setHours(0,0,0,0) ;
-      const end = new Date(date);
+      const end = new Date(date1);
       end.setHours(23,59,59,999) ;
       achivs = await Achivs.find({user : session?.user.id , createdAt: { $gte: start, $lte: end }});
     }
     else
     {
-      await Achivs.find({ user : session.user.id });
+      achivs= await Achivs.find({ user : session.user.id });
     }
 
-    return NextResponse.json({user,achivs,});
+    return NextResponse.json({user,achivs});
 }
 
 
