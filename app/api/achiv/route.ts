@@ -8,33 +8,51 @@ import { authOptions } from "../auth/[...nextauth]/route";
 
 export async function POST(req: Request) {
     try {
-        const {user , title,detail} = await req.json();
-        
-        if(!title || !detail )
-            return NextResponse.json({message:"fields are empty"})
+        const { title, detail } = await req.json();
+
+        if (!title || !detail) {
+            return NextResponse.json(
+                { message: "Fields are empty" },
+                { status: 400 }
+            );
+        }
 
         const session = await getServerSession(authOptions);
-
         if (!session) {
-            return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
+            return NextResponse.json(
+                { error: "Unauthorized" },
+                { status: 401 }
+            );
         }
 
         await connections();
 
-        const user1 = await Users.findById(user).select("-password");
+        const user1 = await Users.findById(session.user.id);
+        if (!user1) {
+            return NextResponse.json(
+                { error: "User not found" },
+                { status: 404 }
+            );
+        }
 
         const achiv = await Achivs.create({
             user: [user1._id],
-            title:title,
-            detail:detail
-        })
+            title,
+            detail
+        });
+
         user1.achiv.push(achiv._id);
         await user1.save();
-        if(achiv)
-            return NextResponse.json({message:"Achievement ADD"})
-    } 
-    catch (error) {
-        return NextResponse.json(error)
+
+        return NextResponse.json(
+            { message: "Achievement added", achiv },
+            { status: 201 }
+        );
+    } catch (error) {
+        return NextResponse.json(
+            { error: "Internal Server Error" },
+            { status: 500 }
+        );
     }
 }
 

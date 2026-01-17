@@ -3,15 +3,19 @@ import { getToken } from "next-auth/jwt";
 
 export async function middleware(request: NextRequest) {
   const token = await getToken({ req: request });
-  const url = request.nextUrl;
+  const pathname = request.nextUrl.pathname;
 
-  if (token && url.pathname.startsWith("/login")) {
+  if (!token && pathname.startsWith("/pages")) {
+    return NextResponse.redirect(new URL("/login", request.url));
+  }
+
+  if (token && (pathname === "/login" || pathname === "/sign")) {
     return NextResponse.redirect(new URL("/pages/home", request.url));
   }
 
-  return NextResponse.next()    
+  return NextResponse.next();
 }
 
 export const config = {
-  matcher: ["/login", "/profile", "/task", "/sign", "/sign-in"],
+  matcher: ["/login", "/sign", "/pages/:path*"],
 };
