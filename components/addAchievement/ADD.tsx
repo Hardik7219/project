@@ -1,7 +1,6 @@
 'use client'
 import { useState } from "react";
 import { useSession } from "next-auth/react";
-import { error } from "console";
 import Loading from "../LoadingScreen/Loading";
 
 export default function ADD() {
