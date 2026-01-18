@@ -23,7 +23,7 @@ export default function TASK({id,title1,detail,isStar,date}):any {
                     <div className={`bg-gray-800 rounded-md mt-2 p-2 min-h-56 h-auto w-[95%] ${isStar1 ? "":'shadow-sm shadow-yellow-400 '}`}>
                     <div className="w-full">
                         <h1 className="font-bold text-cyan-600 text-lg">{title1}</h1>
-                        <p className='flex justify-self-end self-end'>{}</p>
+                        <p className='flex justify-self-end self-end'>{date}</p>
                     </div>
                     <div className=" p-1 rounded-sm bg-gray-500 mt-2 w-full min-h-30 h-auto text-wrap tracking-tighter overflow-hidden">
                         <p className="font-mono text-amber-100">{detail}</p>

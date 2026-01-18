@@ -8,12 +8,15 @@ import { authOptions } from "../auth/[...nextauth]/route";
 
 export async function POST(req: Request) {
     try {
-        const {user , title,detail} = await req.json();
+        const {user,title,detail ,createDate} = await req.json();
         
         if(!title || !detail )
             return NextResponse.json({message:"fields are empty"})
 
-        const session = await getServerSession(authOptions);
+        const session = await getServerSession(authOptions); 
+        const today = new Date();
+        const formatted = today.toISOString().split('T')[0];        
+        const date = createDate? new Date(`${createDate}T00:00:00.000Z`) : new Date(`${formatted}T00:00:00.000Z`);
 
         if (!session) {
             return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
@@ -26,7 +29,8 @@ export async function POST(req: Request) {
         const achiv = await Achivs.create({
             user: [user1._id],
             title:title,
-            detail:detail
+            detail:detail,
+            createDate:date
         })
         user1.achiv.push(achiv._id);
         await user1.save();
