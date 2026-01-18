@@ -27,7 +27,7 @@ export async function POST(req: Request) {
 
         await connections();
 
-        const user1 = await Users.findById(session.user.id);
+        const user1 = await Users.findById(user);
         if (!user1) {
             return NextResponse.json(
                 { error: "User not found" },
@@ -50,7 +50,7 @@ export async function POST(req: Request) {
         );
     } catch (error) {
         return NextResponse.json(
-            { error: "Internal Server Error" },
+            { error: `Internal Server Error ${error}` },
             { status: 500 }
         );
     }
