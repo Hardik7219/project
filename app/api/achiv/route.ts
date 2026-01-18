@@ -12,7 +12,7 @@ export async function POST(req: Request) {
         
         if(!title || !detail )
             return NextResponse.json({message:"fields are empty"})
-
+        //done
         const session = await getServerSession(authOptions); 
         const today = new Date();
         const formatted = today.toISOString().split('T')[0];        
