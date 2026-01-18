@@ -4,6 +4,7 @@ import Task from '../achievements/page'
 import { useSession } from 'next-auth/react';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faImage } from '@fortawesome/free-solid-svg-icons'
+import Loading from '@/components/LoadingScreen/Loading';
 
 export default function ProfileEdit() {
     const { data: session, status, update } = useSession();
@@ -13,10 +14,14 @@ export default function ProfileEdit() {
     const [user,setUser]=useState('')
     const [userEmail,setUserEmail]=useState('')
     const [prf, setPrf] = useState<string>("");
-    
-
+    const [loading,setLoading]= useState<boolean>(false)
+    const [msg, setMsg] = useState<string>('')
     const submit = async (e: React.FormEvent) => {
         e.preventDefault();
+        setLoading(true)
+        if(loading)return
+        try
+        {
         const formData = new FormData();
         
         if (name) formData.append("userName", name);
@@ -28,8 +33,17 @@ export default function ProfileEdit() {
             body: formData
         });
         const data = await res.json()
+        setMsg(data.message)
         await update(data);
     }
+    catch(error: any)
+    {
+        setMsg(error)
+    }
+    finally{
+        setLoading(false)
+    }
+}
     useEffect( ()=>{
         setUser(session?.user.userName?? "");
         setUserEmail(session?.user.email?? "")
@@ -39,6 +53,9 @@ export default function ProfileEdit() {
     return (
         <>
             <div className="bg-zinc-900 fixed inset-0 z-50 h-screen w-full">
+                {loading &&(
+                    <Loading></Loading>
+                )}
                 <div className="bg-gray-900">
                     <div className=" ">
                         <div className="bg-gray-900 rounded-sm mb-10 lg:p-10 flex  ">
@@ -59,10 +76,11 @@ export default function ProfileEdit() {
                                 </div>
                             </div>
                         </div>
+                            <h1 className='flex  justify-self-center  text-red-700 font-mono font-bold ' >{msg}</h1>
                             <button onClick={submit} className='flex m-10 justify-self-end lg:self-center justify-center items-center rounded-sm text-black font-mono font-bold hover:text-gray-600 shadow-red-600 shadow-md hover:cursor-pointer bg-blue-500 h-10 w-20' >update</button>
                         <div className="bg-gray-900 rounded-sm ">
                             <Task></Task>
-                        </div>
+                        </div>  
                         
                     </div>
                 </div>
