@@ -26,10 +26,10 @@ export default function ADD() {
                         {(msg && <p className="text-red-400 font-bold font-sans">{msg}</p>)}
                     <div className="m-2">
                         <form className="p-2 flex justify-center items-center flex-col gap-5" onSubmit={getTask}>
-                            <input className=" p-1 transparent outline-none border-black border-2 rounded-sm text-white"  onChange={(e)=>setTitle(e.target.value)}  type="text" placeholder="Title"></input>
-                            <textarea onChange={(e)=>setDetails(e.target.value)} className=" transparent resize-none outline-none border-black border-2 p-1 rounded-sm text-white" placeholder="Detail"></textarea>
-                            <input type="date" onChange={(e)=>{setDate1(e.target.value)}}></input>
-                            <input type="submit" className=" rounded-sm p-1 text-black font-bold flex justify-center items-center  bg-cyan-500 shadow-lg shadow-cyan-500/50 h-10 w-30 " value="Add Achievement"/>
+                            <input className=" p-1 transparent outline-none w-80 border-black border-2 rounded-sm text-white"  onChange={(e)=>setTitle(e.target.value)}  type="text" placeholder="Title"></input>
+                            <textarea onChange={(e)=>setDetails(e.target.value)} className=" transparent resize-none outline-none border-black border-2 w-80 p-1 rounded-sm text-white" placeholder="Detail"></textarea>
+                            <input type="date" className="bg-amber-50 text-black font-bold font-mono" onChange={(e)=>{setDate1(e.target.value)}}></input>
+                            <input type="submit" className=" rounded-sm  text-black font-bold flex justify-center items-center  bg-cyan-500 shadow-lg shadow-cyan-500/50 h-10 w-40 " value="Add Achievement"/>
                         </form>
                     </div>
                 </div>

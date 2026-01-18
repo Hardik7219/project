@@ -1,6 +1,7 @@
 'use client'
 import React, {useState } from "react";
 import Link from "next/link";
+import Loading from "@/components/LoadingScreen/Loading";
 
 export default function Signin() {
   const [email,setEmail]=useState<string>("");
@@ -8,23 +9,46 @@ export default function Signin() {
   const [pswd,setPswd]=useState<string>("");
   const [err,setErr]=useState<string>("");
   const [psshow,setPasshow]=useState<boolean>(false);
-
-  const getValue =async (e: React.FormEvent)=>{
+  const [loader,setLoader]=useState<boolean>(false)
+  const getValue = async (e: React.FormEvent) => {
     e.preventDefault();
-    const res = await fetch('/api/sign-in',
-    {
-      method: "POST",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({ userName:user, email, password: pswd }),
-    })  
-    const data = await res.json();
-    setErr(data.message);
-  }
+    if (loader) return; 
+
+    setLoader(true);
+    setErr("");
+    try {
+      const res = await fetch("/api/sign-in", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          userName: user,
+          email,
+          password: pswd,
+        }),
+      });
+
+      const data = await res.json();
+
+      if (!res.ok) {
+        throw new Error(data.message || "Signup failed");
+      }
+
+      window.location.href = "/login";
+
+    } catch (error: any) {
+      setErr(error.message || "Something went wrong");
+    } finally {
+      setLoader(false);
+    }
+  };
   
 
   return (
     <div className="min-h-screen bg-gray-900 flex flex-col items-center justify-center px-4">
     <h1 className="m-1.5">CREATE USER</h1>
+    {loader && (
+        <Loading/>
+    )}
     {err && (<p className="text-red-600 text-2xl">{err}</p>)}
       <form onSubmit={getValue} className="bg-white  flex flex-col justify-center items-center p-6 rounded-lg shadow-md w-full lg:w-98">
         

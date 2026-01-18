@@ -3,16 +3,22 @@ import React, {useState } from "react";
 import { signIn } from "next-auth/react";
 import { useRouter } from "next/navigation";
 import Link from "next/link";
-
+import Loading from "@/components/LoadingScreen/Loading";
 export default function Signin() {
   const [email,setEmail]=useState<string>("");
   const [pswd,setPswd]=useState<string>("");
   const [err,setErr]=useState<string>("");
   const [psshow,setPasshow]=useState<boolean>(false);
   const router = useRouter();
+  const [loader,setLoader]=useState<boolean>(false)
+  
 
   const getValue =async (e: React.FormEvent)=>{
     e.preventDefault();
+    if(loader) return;
+    setLoader(true)
+    try
+    {
     if(!email || !pswd )
     {
       setErr("ALL field must recuired ");
@@ -41,10 +47,20 @@ export default function Signin() {
       router.push("/pages/home");
     }
   }
+  catch (error: any) {
+      setErr(error.message || "Something went wrong");
+  }
+  finally{
+    setLoader(false)
+  }
+  }
 
   return (
     <div className="min-h-screen bg-gray-900 flex flex-col items-center justify-center px-4">
     <h1 className="m-1.5">LOG IN</h1>
+        {loader && (
+            <Loading/>
+        )}
     {err && (<p className="text-red-600 text-2xl">{err}</p>)}
       <form onSubmit={getValue} className="bg-white  flex flex-col justify-center items-center p-6 rounded-lg shadow-md w-full lg:w-98">
         

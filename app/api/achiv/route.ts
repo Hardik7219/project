@@ -1,7 +1,7 @@
 import { Users } from "@/lib/user.model";
 import { connections } from "@/lib/db";
 import { NextResponse } from "next/server";
-import { Achivs } from "@/lib/achiv.model";
+import {  Achivs } from "@/lib/achiv.model";
 import { getServerSession } from "next-auth";
 import { authOptions } from "../auth/[...nextauth]/route";
 
@@ -63,8 +63,19 @@ export async function PUT(req: Request)
         return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
     }
 
-    const { id, title, detail } = await req.json();
-    await connections();
+    let { id, title , detail , createDate} = await req.json();
+    const achivs= await Achivs.findById(id)
+
+    if(!title)
+    {
+        title = achivs?.title;
+    }
+    if(!detail)
+    {
+        detail = achivs?.detail;
+    }
+    const date = createDate ? new Date(`${createDate}T00:00:00.000Z`) : achivs?.createDate
+    await connections();    
 
     if (!id || !title || !detail) {
         return NextResponse.json(
@@ -75,7 +86,7 @@ export async function PUT(req: Request)
 
     const updatedAchiv = await Achivs.findByIdAndUpdate(
         id,
-        { title, detail },
+        { title, detail ,createDate : date},
         {
             new: true,
             lean: true
@@ -111,7 +122,7 @@ export async function DELETE(req: Request)
             { status: 404 }
         );
     }
-    return NextResponse.json({message:"delete",deleteAchiv})
+    return NextResponse.json({message:"delete"})
 }
 
 export async function PATCH(req : Request)
