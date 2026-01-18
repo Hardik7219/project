@@ -13,8 +13,8 @@ export default function TASK({id,title1,detail,isStar,date}:any) {
         const [delete1,setDelete]= useState<boolean>(false)
         const [loading ,setLoading] = useState<boolean>(false)
         const deleteAchievement= async () =>{
-            setLoading(true)
             if(loading) return;
+            setLoading(true)
             try{
 
             
