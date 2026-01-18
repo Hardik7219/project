@@ -5,19 +5,22 @@ import { useEffect,useState } from 'react';
 import ACHIV from '@/components/achievement/ACHIV';
 
 type AchivProps = {
-  date?: string | null;
+    date?: string | null;
+    star?: boolean ; 
 };
-export default function Achiv({date} : AchivProps)  {
+export default function Achiv({date,star} : AchivProps)  {
     const [userData, setUserData] = useState<any>(null);
     useEffect(() => {
-        //if (!date) return;
-        const url = date
-        ? `/api/fetch?date=${date}`
-        : `/api/fetch`;
+        const params = new URLSearchParams();
+
+        if (date) params.append("date", date);
+        if (star !== undefined) params.append("star", String(star));
+        const query = params.toString();
+        const url = query ? `/api/fetch?${query}` : `/api/fetch`;
         fetch(url)
         .then(res =>res.json())
         .then(setUserData)
-    }, [date]);
+    }, [date,star]);
 
     if(!userData) return <div className='flex justify-center items-center w-full h-screen'><Loader></Loader></div>
     return (
