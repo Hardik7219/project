@@ -13,7 +13,7 @@ export const authOptions : NextAuthOptions = {
                 email: { label: "Email", type: "text" },
                 password: { label: "Password", type: "password" },
             },
-            async authorize(credentials) {
+            async authorize(credentials : any) : Promise<any> {
                 if (!credentials?.email || !credentials?.password) {
                     throw new Error("Email and password required");
             }
@@ -61,15 +61,19 @@ export const authOptions : NextAuthOptions = {
         token.userName = user.userName;
         token.avatar=user.avatar;
     }
+    if (!token.id) {
+        return token;
+    }
+    await connections();
 
-        await connections();
-        const dbUser = await Users.findById(token.id);
+    const dbUser = await Users.findById(token.id);
 
-        if (dbUser) {
-            token.userName = dbUser.userName;
-            token.avatar= dbUser.avatar;
-        }
+    if (dbUser) {
+        token.userName = dbUser.userName;
+        token.avatar= dbUser.avatar;
+    }
     
+
 
     return token;
 },

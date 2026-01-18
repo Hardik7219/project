@@ -5,9 +5,9 @@ import { useSession } from "next-auth/react";
 export default function ADD() {
         const [title,setTitle]=useState("")
         const [details,setDetails]= useState("")
-        const [msg,setMsg]=useState("")
+        const [msg,setMsg]=useState<string>("")
         const {data : session} = useSession();
-        const [date1,setDate1]= useState()
+        const [date1,setDate1]= useState<string>('')
         const getTask = async (e: React.FormEvent) =>{
             e.preventDefault();
             const res = await fetch('/api/achiv',{

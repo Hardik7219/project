@@ -1,7 +1,7 @@
 'use client'
 import { useState } from "react";
 
-export default function Action({id,onClose}) {
+export default function Action({id,onClose}:any) {
             const [title,setTitle]=useState("")
             const [details,setDetails]= useState("")
             const [msg,setMsg]=useState("")

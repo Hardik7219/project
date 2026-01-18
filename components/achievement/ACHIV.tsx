@@ -4,8 +4,8 @@ import Modal from '@/components/popup/Modal';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faStar } from '@fortawesome/free-solid-svg-icons';
 
-export default function TASK({id,title1,detail,isStar,date}):any {
-        const [showAction, setShowAction] = useState(false);
+export default function TASK({id,title1,detail,isStar,date}:any) {
+        const [showAction, setShowAction] = useState<boolean>(false);
         const [isStar1,setStar ] = useState<boolean>(!isStar);
         const isAchivDone = async ()=>{
                 setStar(current => !current)

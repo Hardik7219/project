@@ -6,14 +6,13 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faImage } from '@fortawesome/free-solid-svg-icons'
 
 export default function ProfileEdit() {
-    const {data:session,status}= useSession();
+    const { data: session, status, update } = useSession();
     const [avatar, setAvatar] = useState<File | null>(null);
-    const [name, setName] = useState("");
-    const [email, setEmail] = useState("");
-    const {update} = useSession();
+    const [name, setName] = useState<string>('');
+    const [email, setEmail] = useState<string>('');
     const [user,setUser]=useState('')
     const [userEmail,setUserEmail]=useState('')
-    const [prf,setPrf]=useState<string>(session?.user.avatar)
+    const [prf, setPrf] = useState<string>("");
     
 
     const submit = async (e: React.FormEvent) => {
@@ -32,9 +31,9 @@ export default function ProfileEdit() {
         await update(data);
     }
     useEffect( ()=>{
-        setUser(session?.user.userName);
-        setUserEmail(session?.user.email)
-        setPrf(session?.user.avatar)
+        setUser(session?.user.userName?? "");
+        setUserEmail(session?.user.email?? "")
+        setPrf(session?.user.avatar?? "")
     },[status,session])
 
     return (
