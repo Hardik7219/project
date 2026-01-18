@@ -1,23 +1,19 @@
 'use client'
 import { useState } from "react";
+import Loading from "../LoadingScreen/Loading";
 
 export default function Action({id,onClose}:any) {
     const [title,setTitle]=useState("")
     const [details,setDetails]= useState("")
     const [msg,setMsg]=useState("")
     const [date1,setDate1]= useState<string>('')
-
-            const deleteAchievement= async () =>{
-                const res = await fetch('/api/achiv',{
-                    method :"DELETE",
-                    headers:{ "Content-Type": "application/json" },
-                    body: JSON.stringify({id:id}),   
-                })
-                    const data = await res.json();
-                    setMsg(data.message)
-                }
+    const [loading ,setLoading] = useState<boolean>(false)
             const getAchievement = async (e: React.FormEvent) =>{
                 e.preventDefault();
+                setLoading(true)
+                if(loading) return ; 
+                try
+                {
                 const res = await fetch('/api/achiv',{
                     method :"PUT",
                     headers:{ "Content-Type": "application/json" },
@@ -28,10 +24,20 @@ export default function Action({id,onClose}:any) {
                         setMsg(data.message);
                         onClose?.();
                     }
+                }catch(error :any)
+                {
+                    setMsg(error.message || "Something went wrong");
+                }
+                finally{
+                    setLoading(false)
+                }
                 }
     return (
         <>
             <div className="flex justify-center items-center p-10">
+                {loading && (
+                    <Loading></Loading>
+                )}
                 <div className="flex flex-col m-10 p-5 justify-center items-center bg-gray-900 w-70 rounded-2xl h-50">
                     <p className="font-mon text-lg  font-bold">EDIT THE ACHIEVEMENT</p>
                     {(msg && <p className="text-red-400 font-bold font-sans">{msg}</p>)}
@@ -43,8 +49,6 @@ export default function Action({id,onClose}:any) {
                             <input type="submit" className="rounded-sm text-black font-bold p-1 flex justify-center items-center  bg-cyan-500 shadow-lg shadow-cyan-500/50 h-10 w-45 " value="Update Achievement"/>
                         </form>
                     </div>
-                    <h1>OR</h1>
-                    <button className="p-1 rounded-sm flex justify-center items-center  bg-red-500 shadow-lg shadow-red-500/50 h-10 w-30 " onClick={deleteAchievement}>DELETE</button>
                 </div>
             </div>
         </>

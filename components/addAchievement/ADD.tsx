@@ -1,6 +1,8 @@
 'use client'
 import { useState } from "react";
 import { useSession } from "next-auth/react";
+import { error } from "console";
+import Loading from "../LoadingScreen/Loading";
 
 export default function ADD() {
         const [title,setTitle]=useState("")
@@ -8,8 +10,13 @@ export default function ADD() {
         const [msg,setMsg]=useState<string>("")
         const {data : session} = useSession();
         const [date1,setDate1]= useState<string>('')
+        const [loader,setLoader] = useState<boolean>(false)
         const getTask = async (e: React.FormEvent) =>{
             e.preventDefault();
+            setLoader(true)
+            if(loader) return;
+            try
+            {
             const res = await fetch('/api/achiv',{
                 method :"POST",
                 headers:{ "Content-Type": "application/json" },
@@ -18,10 +25,21 @@ export default function ADD() {
                 const data = await res.json();
                 setMsg(data.message)
             }
+        catch(err : any)
+        {
+            setMsg(err.message || "Something went wrong");
+        }
+        finally{
+            setLoader(false)
+        }
+    }
     return (
         <>
             <div className="flex justify-center items-center">
                 <div className="flex flex-col m-10 justify-center items-center  bg-gray-900 p-2 w-70 rounded-2xl h-50">
+                    {loader && (
+                        <Loading></Loading>
+                    )}
                     <p className="font-mon text-2xl font-bold flex justify-center items-center">Add Achievement</p>
                         {(msg && <p className="text-red-400 font-bold font-sans">{msg}</p>)}
                     <div className="m-2">

@@ -3,7 +3,7 @@ import { useState } from 'react';
 import Modal from '@/components/popup/Modal';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faStar } from '@fortawesome/free-solid-svg-icons';
-
+import Loading from '../LoadingScreen/Loading';
 export default function TASK({id,title1,detail,isStar,date}:any) {
         const [showAction, setShowAction] = useState<boolean>(false);
         const [isStar1,setStar ] = useState<boolean>(!isStar);
@@ -11,8 +11,13 @@ export default function TASK({id,title1,detail,isStar,date}:any) {
         const formatted = today.toISOString().split('T')[0];  
         const [msg,setMsg] = useState<string>('')  
         const [delete1,setDelete]= useState<boolean>(false)
-        
+        const [loading ,setLoading] = useState<boolean>(false)
         const deleteAchievement= async () =>{
+            setLoading(true)
+            if(loading) return;
+            try{
+
+            
         const res = await fetch('/api/achiv',{
                     method :"DELETE",
                     headers:{ "Content-Type": "application/json" },
@@ -20,6 +25,13 @@ export default function TASK({id,title1,detail,isStar,date}:any) {
                 })
                     const data = await res.json();
                     setMsg(data.message);
+            }catch(error : any)
+            {
+                setMsg(error)
+            }
+            finally{
+                setLoading(false)
+            }
                 }
         const isAchivDone = async ()=>{
             setStar(current => !current)
@@ -34,6 +46,9 @@ export default function TASK({id,title1,detail,isStar,date}:any) {
     return (
         <>
             <div className='w-full flex justify-center items-center'>
+                                {loading && (
+                                    <Loading></Loading>
+                                )}
                     <div className={`bg-gray-800 rounded-md mt-2 p-2 min-h-56 h-auto w-[95%] ${isStar1 ? "":'shadow-sm shadow-yellow-400 '}`}>
                         {delete1 && (
                             <Modal onClose={() => setDelete(false)}>
