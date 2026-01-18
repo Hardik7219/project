@@ -1,17 +1,25 @@
-import mongoose from "mongoose";
+import mongoose, { Schema, Model, models, Document } from "mongoose";
 
-const userSchema = new mongoose.Schema({
-    userName: String,
-    email: String,
-    password: String,
-    achiv:[{
-        type : mongoose.Schema.Types.ObjectId,
-        ref: "Achivs"
-    }],
-    avatar:String
+export interface IUser extends Document {
+  userName?: string;
+  email?: string;
+  password?: string;
+  avatar?: string;
+  achiv: mongoose.Types.ObjectId[];
+}
+
+const userSchema = new Schema<IUser>({
+  userName: String,
+  email: String,
+  password: String,
+  avatar: String,
+  achiv: [
+    {
+      type: Schema.Types.ObjectId,
+      ref: "Achivs",
+    },
+  ],
 });
 
-export const Users = (mongoose.models && mongoose.models.User)
-    ? (mongoose.models.User as mongoose.Model<unknown>)
-    : mongoose.model('User', userSchema);
-
+export const Users: Model<IUser> =
+  models.User || mongoose.model<IUser>("User", userSchema);

@@ -11,33 +11,42 @@ export const authOptions : NextAuthOptions = {
             name: "Credentials",
             credentials: {
                 email: { label: "Email", type: "text" },
-                password: { label: "Password", type: "password" }
+                password: { label: "Password", type: "password" },
             },
-            async authorize(credentials : any) : Promise<any>
-            {
-                await connections();
-                try {
-
-                    const user = await Users.findOne({ email :credentials.email})
-
-                    if(!user) throw new Error("User not exist");
-
-                    const isLogin= await bcrypt.compare(credentials.password,user.password)
-
-                    if(!isLogin) throw new Error("password is wrong");
-
-                    else{
-                        return {
-                            id: user._id.toString(),
-                            email: user.email,
-                            userName: user.userName,
-                    }
-                    }
-                } catch (error) {
-                    throw new Error(error);
-                }
+            async authorize(credentials) {
+                if (!credentials?.email || !credentials?.password) {
+                    throw new Error("Email and password required");
             }
-        })
+
+            await connections();
+
+            const user = await Users.findOne({ email: credentials.email });
+
+            if (!user) {
+            throw new Error("User not exist");
+            }
+
+            if (!user.password) {
+            throw new Error("User password missing");
+            }
+
+            const isLogin = await bcrypt.compare(
+            credentials.password,
+            user.password
+            );
+
+            if (!isLogin) {
+            throw new Error("Password is wrong");
+            }
+
+            return {
+            id: user._id.toString(),
+            email: user.email,
+            name: user.userName,
+            };
+        },
+})
+
     ],
     session: {
         strategy:"jwt"
@@ -46,7 +55,7 @@ export const authOptions : NextAuthOptions = {
         signIn : "/login"
     },
     callbacks: {
-    async jwt({ token, user, trigger }) {
+    async jwt({ token, user}) {
     if (user) {
         token.id = user.id;
         token.userName = user.userName;

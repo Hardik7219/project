@@ -1,17 +1,33 @@
-import mongoose from "mongoose";
+import mongoose, { Schema, Model, models, Document } from "mongoose";
 
-const achivSchema= new mongoose.Schema({
-    user: [{
-        type : mongoose.Schema.Types.ObjectId,
-        ref: "Users"
-    }],
-    title : String,
+export interface IAchiv extends Document {
+  user: mongoose.Types.ObjectId[];
+  title?: string;
+  detail?: string;
+  isStar?: boolean;
+  createDate?: Date;
+}
+
+const achivSchema = new Schema<IAchiv>(
+  {
+    user: [
+      {
+        type: Schema.Types.ObjectId,
+        ref: "User",
+      },
+    ],
+    title: String,
     detail: String,
-    isStar : Boolean,
-    createDate: Date
-},{timestamps: true}
-)
+    isStar: {
+      type: Boolean,
+      default: false,
+    },
+    createDate: {
+      type: Date,
+    },
+  },
+  { timestamps: true }
+);
 
-export const Achivs = (mongoose.models && mongoose.models.Achivs)
-    ? (mongoose.models.Achivs as mongoose.Model<unknown>)
-    : mongoose.model('Achiv', achivSchema);
+export const Achivs: Model<IAchiv> =
+  models.Achiv || mongoose.model<IAchiv>("Achiv", achivSchema);
