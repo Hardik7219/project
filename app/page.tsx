@@ -1,6 +1,16 @@
+'use client'
 import Link from "next/link";
+import { useSession } from "next-auth/react";
+import Loader from "@/components/loader/Loader";
+import { redirect } from "next/navigation";
 
 export default function Page() {
+
+  const {data:session,status}= useSession();
+  if(status == 'loading')
+    return <Loader></Loader>
+  else if(session?.user.id)
+    redirect('/pages/home')
   return (
     <div className="">
         <div className="flex">
