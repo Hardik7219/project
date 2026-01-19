@@ -5,14 +5,14 @@ import {  Achivs } from "@/lib/achiv.model";
 import { getServerSession } from "next-auth";
 import { authOptions } from "../auth/[...nextauth]/route";
 
-
 export async function POST(req: Request) {
     try {
         const {user,title,detail ,createDate} = await req.json();
-        
+
+
         if(!title || !detail )
             return NextResponse.json({message:"fields are empty"})
-        //done
+
         const session = await getServerSession(authOptions); 
         const today = new Date();
         const formatted = today.toISOString().split('T')[0];        
@@ -64,6 +64,9 @@ export async function PUT(req: Request)
     }
 
     let { id, title , detail , createDate} = await req.json();
+    
+    await connections();    
+
     const achivs= await Achivs.findById(id)
 
     if(!title)
@@ -75,7 +78,6 @@ export async function PUT(req: Request)
         detail = achivs?.detail;
     }
     const date = createDate ? new Date(`${createDate}T00:00:00.000Z`) : achivs?.createDate
-    await connections();    
 
     if (!id || !title || !detail) {
         return NextResponse.json(
@@ -114,7 +116,8 @@ export async function DELETE(req: Request)
     const {id} = await req.json();
     await connections();
 
-    const deleteAchiv = await Achivs.findByIdAndDelete({_id:id,user:session.user.id})
+    const deleteAchiv = await Achivs.findOneAndDelete({ _id: id, user: session.user.id })
+
 
         if (!deleteAchiv) {
         return NextResponse.json(
@@ -147,6 +150,6 @@ export async function PATCH(req : Request)
         { 
             return NextResponse.json({ message: "Achievement not found" }, { status: 404 });
         }
-        return Response.json({message:"Achievement is now Star"});
+        return NextResponse.json({message:"Achievement is now Star"});
 
 }

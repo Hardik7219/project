@@ -1,7 +1,5 @@
 import {Users} from '@/lib/user.model'
 import {connections} from '@/lib/db'
-import fs from 'fs/promises'
-import path from 'path'
 import { NextResponse } from "next/server";
 import { getServerSession } from "next-auth";
 import { authOptions } from "../auth/[...nextauth]/route";
@@ -44,7 +42,6 @@ export async function PUT(req: Request) {
   const formData = await req.formData();
 
   const userName = formData.get("userName") as string | null;
-  const email = formData.get("email") as string | null;
   const avatarFile = formData.get("avatar") as File | null;
 
   await connections();
@@ -52,7 +49,6 @@ export async function PUT(req: Request) {
   const updateData: any = {};
 
   if (userName) updateData.userName = userName;
-  if (email) updateData.email = email;
 
   if (avatarFile) {
     if (!avatarFile.type.startsWith("image/")) {
