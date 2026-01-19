@@ -4,6 +4,10 @@ import { NextResponse } from "next/server";
 import { getServerSession } from "next-auth";
 import { authOptions } from "../auth/[...nextauth]/route";
 import { Achivs } from "@/lib/achiv.model";
+import cloudinary from '@/lib/cloudinary';
+import streamifier from "streamifier";
+
+
 export async function GET(req : Request)
 {
     const session = await getServerSession(authOptions);
@@ -32,7 +36,6 @@ export async function GET(req : Request)
 }
 
 
-
 export async function PUT(req: Request) {
   const session = await getServerSession(authOptions);
   if (!session) {
@@ -51,26 +54,47 @@ export async function PUT(req: Request) {
   if (userName) updateData.userName = userName;
 
   if (avatarFile) {
-    if (!avatarFile.type.startsWith("image/")) {
-      return NextResponse.json(
-        { message: "Only images allowed" },
-        { status: 400 }
-      );
-    }
-
-    const bytes = await avatarFile.arrayBuffer();
-    const buffer = Buffer.from(bytes);
-
-    const uploadDir = path.join(process.cwd(), "public/avatar");
-    await fs.mkdir(uploadDir, { recursive: true });
-
-    const fileName = `${session.user.id}-${Date.now()}.png`;
-    const filePath = path.join(uploadDir, fileName);
-
-    await fs.writeFile(filePath, buffer);
-
-    updateData.avatar = `/avatar/${fileName}`;
+  if (!avatarFile.type.startsWith("image/")) {
+    return NextResponse.json(
+      { message: "Only images allowed" },
+      { status: 400 }
+    );
   }
+  if (avatarFile.size > 2 * 1024 * 1024) {
+  return NextResponse.json(
+    { message: "Image must be under 2MB" },
+    { status: 400 }
+  );
+}
+
+try{
+const buffer = Buffer.from(await avatarFile.arrayBuffer());
+
+const uploadResult = await new Promise<any>((resolve, reject) => {
+  const uploadStream = cloudinary.uploader.upload_stream(
+    {
+      folder: "avatars",
+      public_id: `${session.user.id}-${Date.now()}`,
+      resource_type: "image",
+    },
+    (error, result) => {
+      if (error) return reject(error);
+      resolve(result);
+    }
+  );
+
+  streamifier.createReadStream(buffer).pipe(uploadStream);
+});
+
+    updateData.avatar = uploadResult.secure_url;
+  } catch (error) {
+    console.error("Cloudinary upload error:", error);
+    return NextResponse.json(
+      { message: "Image upload failed" },
+      { status: 500 }
+    );
+  }
+}
 
   if (Object.keys(updateData).length === 0) {
     return NextResponse.json(
@@ -83,10 +107,10 @@ export async function PUT(req: Request) {
     session.user.id,
     updateData,
     { new: true }
-  );
+  ).select("-password");
 
   return NextResponse.json({
     message: "Profile updated",
-    user
+    user,
   });
 }
