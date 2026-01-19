@@ -13,7 +13,7 @@ export const authOptions : NextAuthOptions = {
                 email: { label: "Email", type: "text" },
                 password: { label: "Password", type: "password" },
             },
-            async authorize(credentials : any) : Promise<any> {
+            async authorize(credentials) : Promise<any> {
                 if (!credentials?.email || !credentials?.password) {
                     throw new Error("Email and password required");
             }
@@ -27,7 +27,8 @@ export const authOptions : NextAuthOptions = {
             }
 
             if (!user.password) {
-            throw new Error("User password missing");
+                throw new Error("Invalid email or password");
+
             }
 
             const isLogin = await bcrypt.compare(
@@ -36,7 +37,7 @@ export const authOptions : NextAuthOptions = {
             );
 
             if (!isLogin) {
-            throw new Error("Password is wrong");
+            throw new Error("Invalid email or password");
             }
 
             return {

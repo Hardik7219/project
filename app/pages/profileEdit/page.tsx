@@ -10,7 +10,6 @@ export default function ProfileEdit() {
     const { data: session, status, update } = useSession();
     const [avatar, setAvatar] = useState<File | null>(null);
     const [name, setName] = useState<string>('');
-    const [email, setEmail] = useState<string>('');
     const [user,setUser]=useState('')
     const [userEmail,setUserEmail]=useState('')
     const [prf, setPrf] = useState<string>("");
@@ -25,16 +24,26 @@ export default function ProfileEdit() {
         const formData = new FormData();
         
         if (name) formData.append("userName", name);
-        if (email) formData.append("email", email);
         if (avatar) formData.append("avatar", avatar);
         
         const res = await fetch("/api/fetch", {
             method: "PUT",
             body: formData
         });
+        
         const data = await res.json()
+        if (!res.ok) {
+            throw new Error(data.message || "Update failed");
+        }
+
         setMsg(data.message)
-        await update(data);
+await update({
+  user: {
+    userName: data.user.userName,
+    avatar: data.user.avatar,
+  },
+});
+
     }
     catch (err: any) {
     setMsg(err.message || "Something went wrong");
@@ -71,7 +80,7 @@ export default function ProfileEdit() {
                             <div className="h-40 flex justify-center items-center w-60">
                                 <div className=''>
                                     <label className='text-emerald-500 font-bold font-sans text-lg'>UserName:</label><input type="text" placeholder={user} onChange={(e) => setName(e.target.value)} className="m-2 outline-none text-white font-bold font-mono" ></input>
-                                    <label className='text-emerald-500 font-bold font-sans text-lg'>Email:</label><input type="text" placeholder={userEmail} onChange={(e) => setEmail(e.target.value)} className="m-2 outline-none font-bold font-mono text-white" ></input>      
+                                    <label className='text-emerald-500 font-bold font-sans text-lg'>Email:</label><input type="text" placeholder={userEmail} className="m-2 outline-none font-bold font-mono text-white" readOnly   ></input>      
                                 </div>
                             </div>
                         </div>

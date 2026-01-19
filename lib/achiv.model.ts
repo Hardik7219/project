@@ -1,16 +1,16 @@
-import mongoose, { Schema, Model, models, Document } from "mongoose";
+import mongoose, { Schema, Model, models } from "mongoose";
 
-export interface IAchiv extends Document {
+export interface IAchiv {
   user: mongoose.Types.ObjectId[];
-  title?: string;
-  detail?: string;
-  isStar?: boolean;
-  createDate?: Date;
+  title: string;
+  detail: string;
+  isStar: boolean;
+  createDate: Date;
 }
 
 const achivSchema = new Schema<IAchiv>(
   {
-    user: [
+    user:[ 
       {
         type: Schema.Types.ObjectId,
         ref: "User",
