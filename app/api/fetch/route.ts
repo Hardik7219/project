@@ -6,11 +6,6 @@ import { NextResponse } from "next/server";
 import { getServerSession } from "next-auth";
 import { authOptions } from "../auth/[...nextauth]/route";
 import { Achivs } from "@/lib/achiv.model";
-import cloudinary from '@/lib/cloudinary';
-import { StreamingProfiles } from 'cloudinary';
-import streamifier from "streamifier";
-
-
 export async function GET(req : Request)
 {
     const session = await getServerSession(authOptions);
@@ -39,6 +34,7 @@ export async function GET(req : Request)
 }
 
 
+
 export async function PUT(req: Request) {
   const session = await getServerSession(authOptions);
   if (!session) {
@@ -59,41 +55,26 @@ export async function PUT(req: Request) {
   if (email) updateData.email = email;
 
   if (avatarFile) {
-  if (!avatarFile.type.startsWith("image/")) {
-    return NextResponse.json(
-      { message: "Only images allowed" },
-      { status: 400 }
-    );
-  }
-
-  const buffer = Buffer.from(await avatarFile.arrayBuffer());
-
-  try {
-    const uploadResult: any = await new Promise((resolve, reject) => {
-      const stream = cloudinary.uploader.upload_stream(
-        {
-          folder: "avatars",
-          public_id: `${session.user.id}-${Date.now()}`,
-          resource_type: "image",
-        },
-        (error, result) => {
-          if (error) reject(error);
-          else resolve(result);
-        }
+    if (!avatarFile.type.startsWith("image/")) {
+      return NextResponse.json(
+        { message: "Only images allowed" },
+        { status: 400 }
       );
+    }
 
-      streamifier.createReadStream(buffer).pipe(stream);
-    });
+    const bytes = await avatarFile.arrayBuffer();
+    const buffer = Buffer.from(bytes);
 
-    updateData.avatar = uploadResult.secure_url;
-  } catch (error) {
-    console.error("Cloudinary upload error:", error);
-    return NextResponse.json(
-      { message: "Image upload failed" },
-      { status: 500 }
-    );
+    const uploadDir = path.join(process.cwd(), "public/avatar");
+    await fs.mkdir(uploadDir, { recursive: true });
+
+    const fileName = `${session.user.id}-${Date.now()}.png`;
+    const filePath = path.join(uploadDir, fileName);
+
+    await fs.writeFile(filePath, buffer);
+
+    updateData.avatar = `/avatar/${fileName}`;
   }
-}
 
   if (Object.keys(updateData).length === 0) {
     return NextResponse.json(
@@ -106,10 +87,10 @@ export async function PUT(req: Request) {
     session.user.id,
     updateData,
     { new: true }
-  ).select("-password");
+  );
 
   return NextResponse.json({
     message: "Profile updated",
-    user,
+    user
   });
 }
