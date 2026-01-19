@@ -25,10 +25,10 @@ export default function Navbar() {
 
     return (
         <>
-          <div className="w-full border-b-2 h-18 lg:h-10 flex items-center justify-between bg-gray-900 p-3 sticky top-0 z-10 text-black">
-            <div className=" text-amber-50 justify-self-start "><Link href={"/pages/home"}><div className={`bg-center bg-cover h-10 w-40`} style={{backgroundImage: `url(/logo.png)`,}}></div></Link></div>
+          <div className="w-full border-b-2 h-12 lg:h-10 flex items-center justify-between bg-gray-900 p-3 sticky top-0 z-10 text-black">
+            <div className=" text-amber-50 justify-self-start "><Link href={"/pages/home"}><div className={`bg-center bg-cover h-5 w-25 lg:h-10 lg:w-40`} style={{backgroundImage: `url(/logo.png)`,}}></div></Link></div>
             <div className=" flex items-center justify-self-end">
-              <button className=" hover:text-gray-800 bg-zinc-500  border-2 border-black p-0.5 m-1 text-mono rounded-[5px] text-red-600 " onClick={()=>{signOut({callbackUrl:"/login"})}}>{user? "LOG OUT" : "SIGN IN"}</button>
+              <button className=" hover:text-gray-800 bg-zinc-500  border-2 border-black p-0.5 text-sm m-1 text-mono rounded-[5px] text-red-600 " onClick={()=>{signOut({callbackUrl:"/login"})}}>{user? "LOG OUT" : "SIGN IN"}</button>
               <Link className="  hover:text-gray-800 bg-zync-100 p-1 m-1 rounded-[5px]  border-black text-mono text-green-500 "href={isLogin? "/pages/profile" : "/login"}>{isLogin?  logo :"LOG IN"}</Link>
             </div>
         </div>
