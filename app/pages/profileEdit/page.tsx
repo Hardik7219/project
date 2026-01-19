@@ -70,13 +70,13 @@ export default function ProfileEdit() {
                             </div>
                             <div className="h-40 flex justify-center items-center w-60">
                                 <div className=''>
-                                    <label className='text-emerald-500 font-bold font-sans text-2xl'>UserName:</label><input type="text" placeholder={user} onChange={(e) => setName(e.target.value)} className="m-2 outline-none text-white font-bold font-mono" ></input>
-                                    <label className='text-emerald-500 font-bold font-sans text-2xl'>Email:</label><input type="text" placeholder={userEmail} onChange={(e) => setEmail(e.target.value)} className="m-2 outline-none font-bold font-mono text-white" ></input>      
+                                    <label className='text-emerald-500 font-bold font-sans text-lg'>UserName:</label><input type="text" placeholder={user} onChange={(e) => setName(e.target.value)} className="m-2 outline-none text-white font-bold font-mono" ></input>
+                                    <label className='text-emerald-500 font-bold font-sans text-lg'>Email:</label><input type="text" placeholder={userEmail} onChange={(e) => setEmail(e.target.value)} className="m-2 outline-none font-bold font-mono text-white" ></input>      
                                 </div>
                             </div>
                         </div>
                         <div className='w-full p-2 '>
-                            <h1 className='flex justify-self-center text-sm text-red-700 font-mono font-bold ' >{msg}h</h1>
+                            <h1 className='flex justify-self-center text-sm text-red-700 font-mono font-bold ' >{msg}</h1>
                             <button onClick={submit} className=' flex self-end justify-center items-center justify-self-end rounded-sm text-black font-mono font-bold hover:text-gray-600 shadow-red-600 shadow-md hover:cursor-pointer bg-blue-500 h-10 w-20' >update</button>
                         </div>
                     </div>
