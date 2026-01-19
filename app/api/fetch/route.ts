@@ -86,8 +86,15 @@ const uploadResult = await new Promise<any>((resolve, reject) => {
   streamifier.createReadStream(buffer).pipe(uploadStream);
 });
 
-    updateData.avatar = `/avatar/${fileName}`;
+    updateData.avatar = uploadResult.secure_url;
+  } catch (error) {
+    console.error("Cloudinary upload error:", error);
+    return NextResponse.json(
+      { message: "Image upload failed" },
+      { status: 500 }
+    );
   }
+}
 
   if (Object.keys(updateData).length === 0) {
     return NextResponse.json(
