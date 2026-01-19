@@ -18,8 +18,8 @@ export default function ProfileEdit() {
     const [msg, setMsg] = useState<string>('')
     const submit = async (e: React.FormEvent) => {
         e.preventDefault();
-        setLoading(true)
         if(loading)return
+        setLoading(true)
         try
         {
         const formData = new FormData();
@@ -36,10 +36,9 @@ export default function ProfileEdit() {
         setMsg(data.message)
         await update(data);
     }
-    catch(error: any)
-    {
-        setMsg(error)
-    }
+    catch (err: any) {
+    setMsg(err.message || "Something went wrong");
+        }
     finally{
         setLoading(false)
     }
