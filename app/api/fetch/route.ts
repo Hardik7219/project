@@ -1,11 +1,13 @@
 import {Users} from '@/lib/user.model'
 import {connections} from '@/lib/db'
-import fs from 'fs/promises'
-import path from 'path'
 import { NextResponse } from "next/server";
 import { getServerSession } from "next-auth";
 import { authOptions } from "../auth/[...nextauth]/route";
 import { Achivs } from "@/lib/achiv.model";
+import cloudinary from '@/lib/cloudinary';
+import streamifier from "streamifier";
+
+
 export async function GET(req : Request)
 {
     const session = await getServerSession(authOptions);
@@ -44,7 +46,6 @@ export async function PUT(req: Request) {
   const formData = await req.formData();
 
   const userName = formData.get("userName") as string | null;
-  const email = formData.get("email") as string | null;
   const avatarFile = formData.get("avatar") as File | null;
 
   await connections();
@@ -52,26 +53,39 @@ export async function PUT(req: Request) {
   const updateData: any = {};
 
   if (userName) updateData.userName = userName;
-  if (email) updateData.email = email;
 
   if (avatarFile) {
-    if (!avatarFile.type.startsWith("image/")) {
-      return NextResponse.json(
-        { message: "Only images allowed" },
-        { status: 400 }
-      );
+  if (!avatarFile.type.startsWith("image/")) {
+    return NextResponse.json(
+      { message: "Only images allowed" },
+      { status: 400 }
+    );
+  }
+  if (avatarFile.size > 2 * 1024 * 1024) {
+  return NextResponse.json(
+    { message: "Image must be under 2MB" },
+    { status: 400 }
+  );
+}
+
+try{
+const buffer = Buffer.from(await avatarFile.arrayBuffer());
+
+const uploadResult = await new Promise<any>((resolve, reject) => {
+  const uploadStream = cloudinary.uploader.upload_stream(
+    {
+      folder: "avatars",
+      public_id: `${session.user.id}-${Date.now()}`,
+      resource_type: "image",
+    },
+    (error, result) => {
+      if (error) return reject(error);
+      resolve(result);
     }
+  );
 
-    const bytes = await avatarFile.arrayBuffer();
-    const buffer = Buffer.from(bytes);
-
-    const uploadDir = path.join(process.cwd(), "public/avatar");
-    await fs.mkdir(uploadDir, { recursive: true });
-
-    const fileName = `${session.user.id}-${Date.now()}.png`;
-    const filePath = path.join(uploadDir, fileName);
-
-    await fs.writeFile(filePath, buffer);
+  streamifier.createReadStream(buffer).pipe(uploadStream);
+});
 
     updateData.avatar = `/avatar/${fileName}`;
   }
