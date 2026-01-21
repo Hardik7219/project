@@ -1,36 +1,180 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# 🏆 Achievement Tracker
 
-## Getting Started
+A **full stack Achievement Tracker web application** built with **Next.js (App Router)**, **React**, and **Node.js**, designed to help users log, manage, and highlight their achievements over time. The application supports secure authentication, profile management, achievement filtering, and a star-based importance system.
 
-First, run the development server:
+---
+
+## ✨ Key Features
+
+* 🔐 Secure authentication using **NextAuth.js**
+* 👤 User account & profile management
+* 📝 Add achievements with title, details, and date
+* ✏️ Edit and delete existing achievements
+* ⭐ Mark achievements as starred (important milestones)
+* 📅 Add and organize achievements by date
+* 🔍 Advanced filtering:
+
+  * Filter by date
+  * Filter by starred achievements
+  * Combined filter (date + star)
+* 🖼️ Image upload support (Cloudinary integration)
+* 📱 Fully responsive UI using Tailwind CSS
+
+---
+
+## 🛠️ Tech Stack
+
+### Frontend
+
+* Next.js 16 (App Router)
+* React 19
+* Tailwind CSS 4
+* Font Awesome Icons
+* Styled Components
+
+### Backend
+
+* Node.js
+* Next.js API Routes
+* Express (used for middleware & utilities)
+
+### Database
+
+* MongoDB
+* Mongoose ODM
+
+### Authentication & Security
+
+* NextAuth.js
+* MongoDB Adapter for NextAuth
+* bcrypt / bcryptjs for password hashing
+* JSON Web Tokens (JWT)
+* Cookie-based sessions
+
+### Media Handling
+
+* Cloudinary
+* Streamifier
+
+---
+
+## 📂 Project Structure
+
+```
+project-root/
+│-- app/
+│   |-- api/            # API routes
+│   |-- auth/           # Authentication pages & config
+│   |-- dashboard/      # User dashboard
+│-- components/         # Reusable UI components
+│-- lib/                # DB connection & helpers
+│-- models/             # Mongoose schemas
+│-- public/
+│-- styles/
+│-- .env
+│-- package.json
+│-- README.md
+```
+
+---
+
+## ⚙️ Installation & Setup
+
+### 1️⃣ Clone the repository
+
+```bash
+git clone https://github.com/Hardik7219/project.git
+cd project
+```
+
+### 2️⃣ Install dependencies
+
+```bash
+npm install
+```
+
+### 3️⃣ Environment Variables
+
+Create a `.env` file in the root directory and add:
+
+```env
+MONGODB_URI=your_mongodb_connection_string
+NEXTAUTH_SECRET=your_nextauth_secret
+NEXTAUTH_URL=http://localhost:3000
+CLOUDINARY_CLOUD_NAME=your_cloud_name
+CLOUDINARY_API_KEY=your_api_key
+CLOUDINARY_API_SECRET=your_api_secret
+```
+
+---
+
+### 4️⃣ Run the application
 
 ```bash
 npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+The application will be available at:
+**[http://localhost:3000](http://localhost:3000)**
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+---
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+## 🔑 Authentication Flow
 
-## Learn More
+* User signs in using NextAuth
+* MongoDB Adapter stores sessions and user data
+* Protected routes for dashboard, profile, and achievements
+* Secure password hashing using bcrypt
 
-To learn more about Next.js, take a look at the following resources:
+---
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+## 🔗 API Routes (High-Level)
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+| Method | Endpoint              | Description             |
+| ------ | --------------------- | ----------------------- |
+| GET    | /api/achievements     | Fetch user achievements |
+| POST   | /api/achievements     | Create new achievement  |
+| PUT    | /api/achievements/:id | Update achievement      |
+| DELETE | /api/achievements/:id | Delete achievement      |
+| PUT    | /api/profile          | Update user profile     |
 
-## Deploy on Vercel
+---
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+## 🚀 Deployment
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+Recommended deployment platform:
+
+* **Vercel** (Best for Next.js)
+
+Make sure to configure all environment variables in the deployment dashboard.
+
+---
+
+## 🤝 Contributing
+
+Contributions are welcome!
+
+1. Fork the repository
+2. Create a new feature branch
+3. Commit your changes
+4. Push to your branch
+5. Open a Pull Request
+
+---
+
+## 📜 License
+
+This project is licensed under the **MIT License**.
+
+---
+
+## 👨‍💻 Author
+
+**Hexelion**
+Full Stack Web Developer
+
+* GitHub: [https://github.com/Hardik7219](https://github.com/Hardik7219)
+
+---
+
+⭐ If you find this project useful, please consider giving it a star ⭐
