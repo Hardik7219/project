@@ -1,232 +1,4 @@
-<<<<<<< HEAD
-# 🏆 Achievement Tracker – Full Stack Web Application
-
-A **full‑stack Achievement Tracker** built with **Next.js (App Router)** that allows users to securely log in, manage personal achievements, mark them as starred, and filter them by date or importance. The project uses **NextAuth (Credentials Provider)** for authentication and **MongoDB with Mongoose** for data persistence.
-
----
-
-## 🚀 Live Purpose
-
-This application helps users **track daily achievements**, maintain consistency, and visually organize progress over time.
-
----
-
-## 🛠️ Tech Stack (Exact)
-
-### Frontend
-
-* **Next.js 13+ (App Router)**
-* **React**
-* **TypeScript**
-* **Tailwind CSS**
-* FontAwesome Icons
-
-### Backend
-
-* **Next.js API Routes**
-* **Node.js**
-* **NextAuth.js (Credentials Provider)**
-
-### Database
-
-* **MongoDB**
-* **Mongoose (ODM)**
-
-### Security & Auth
-
-* Encrypted passwords using **bcryptjs**
-* JWT‑based sessions
-* Protected API routes using `getServerSession`
-
----
-
-## ✨ Core Features
-
-### 🔐 Authentication
-
-* Login using **email & password** (Credentials Provider)
-* JWT‑based session handling
-* Protected routes & APIs
-
-### 🏆 Achievements Management
-
-* Add achievements with:
-
-  * Title
-  * Description
-  * Custom date
-* Edit existing achievements
-* Delete achievements
-* Mark / unmark achievements as ⭐ **Starred**
-
-### 🔍 Filtering & Sorting
-
-* Filter achievements by:
-
-  * Date
-  * Starred status
-  * Date + Star combined
-
-### 👤 Profile
-
-* Update username
-* Update avatar
-* View personal achievements only
-
----
-
-## 📂 Real Project Structure
-
-```
-app/
- ├── api/
- │   ├── achiv/route.ts        # POST, PUT, DELETE, PATCH (Achievements)
- │   └── auth/[...nextauth]/route.ts
- ├── pages/
- │   ├── login/
- │   ├── profileEdit/
- │   └── dashboard/
-
-components/
- ├── achievement/ACHIV.tsx     # Achievement card UI
- ├── Actions/
- ├── popup/Modal.tsx
- └── LoadingScreen/
-
-lib/
- ├── db.ts                     # MongoDB connection
- ├── user.model.ts             # User schema
- └── achiv.model.ts            # Achievement schema
-
-styles/
-public/
-```
-
----
-
-## 🧩 Database Schema (Mongoose)
-
-### Achievement Model (`lib/achiv.model.ts`)
-
-```ts
-export interface IAchiv {
-  user: mongoose.Types.ObjectId[];
-  title: string;
-  detail: string;
-  isStar: boolean;
-  createDate: Date;
-}
-```
-
-* `isStar` defaults to `false`
-* `timestamps: true` enabled
-* Linked to User via ObjectId reference
-
----
-
-## 🔌 API Routes (Exact Behavior)
-
-### `POST /api/achiv`
-
-* Create a new achievement
-* Requires active session
-
-### `PUT /api/achiv`
-
-* Update title, detail, or date
-* Partial updates supported
-
-### `PATCH /api/achiv`
-
-* Toggle ⭐ star status
-
-### `DELETE /api/achiv`
-
-* Delete achievement (only owner allowed)
-
-All routes are protected using:
-
-```ts
-getServerSession(authOptions)
-```
-
----
-
-## 🔐 Authentication Flow (NextAuth)
-
-* Credentials Provider (Email + Password)
-* Passwords verified using **bcryptjs**
-* JWT strategy
-* Custom session object includes:
-
-  * `id`
-  * `userName`
-  * `avatar`
-
----
-
-## 🖥️ UI Component Example
-
-### Achievement Card (`ACHIV.tsx`)
-
-* Displays:
-
-  * Title
-  * Description
-  * Date
-* Actions:
-
-  * Edit
-  * Delete (with confirmation modal)
-  * ⭐ Star toggle
-* Uses Tailwind CSS animations & loading states
-
----
-
-## ⚙️ Environment Variables
-
-Create `.env.local`:
-
-```env
-MONGODB_URI=your_mongodb_connection
-NEXTAUTH_SECRET=your_secret_key
-```
-
----
-
-## ▶️ Run Locally
-
-```bash
-git clone https://github.com/Hardik7219/project.git
-cd project
-npm install
-npm run dev
-```
-
-Open: `http://localhost:3000`
-
----
-
-## 📊 Project Evaluation
-
-**Complexity:** ⭐⭐⭐⭐☆ (4/5)
-
-**Overall Rating:** ⭐⭐⭐⭐⭐⭐⭐⭐☆ **8.7 / 10**
-
-### Strengths
-
-* Real authentication (not demo‑level)
-* Clean API separation
-* Secure MongoDB relations
-* Practical, real‑world use case
-
-### Improvements Possible
-
-* Pagination for achievements
-* Email verification
-* OAuth providers (Google/GitHub)
-* Analytics dashboard
-=======
+Link :- https://achievementhub-nine.vercel.app/
 # 🏆 Achievement Tracker
 
 A **full stack Achievement Tracker web application** built with **Next.js (App Router)**, **React**, and **Node.js**, designed to help users log, manage, and highlight their achievements over time. The application supports secure authentication, profile management, achievement filtering, and a star-based importance system.
@@ -289,20 +61,75 @@ A **full stack Achievement Tracker web application** built with **Next.js (App R
 
 ## 📂 Project Structure
 
+The project follows a **modular and scalable structure** using **Next.js App Router**, with a clear separation between API routes, UI components, database models, and utilities.
+
 ```
-project-root/
-│-- app/
-│   |-- api/            # API routes
-│   |-- auth/           # Authentication pages & config
-│   |-- dashboard/      # User dashboard
-│-- components/         # Reusable UI components
-│-- lib/                # DB connection & helpers
-│-- models/             # Mongoose schemas
-│-- public/
-│-- styles/
-│-- .env
-│-- package.json
-│-- README.md
+|-- README.md
+|-- app
+|   |-- api
+|   |   |-- achiv
+|   |   |   `-- route.ts           # CRUD APIs for achievements
+|   |   |-- auth
+|   |   |   |-- [...nextauth]
+|   |   |   |   `-- route.ts       # NextAuth configuration
+|   |   |   `-- a
+|   |   |-- fetch
+|   |   |   `-- route.ts           # Fetch user-specific data
+|   |   |-- log-out
+|   |   |   `-- route.ts           # Logout handler
+|   |   `-- sign-in
+|   |       `-- route.ts           # Sign-in API
+|   |-- layout.tsx                # Root layout
+|   |-- page.tsx                  # Landing page
+|   |-- login
+|   |   `-- page.tsx              # Login page
+|   |-- pages
+|   |   |-- achievements
+|   |   |   `-- page.tsx           # Achievements dashboard
+|   |   |-- home
+|   |   |   `-- page.tsx           # Home page
+|   |   |-- navbar
+|   |   |   `-- page.tsx           # Navigation bar
+|   |   |-- profile
+|   |   |   `-- page.tsx           # User profile
+|   |   `-- profileEdit
+|   |       `-- page.tsx           # Edit profile page
+|   `-- sign
+|       `-- page.tsx              # Sign-up page
+|
+|-- components
+|   |-- Actions
+|   |   `-- Action.tsx             # Achievement actions
+|   |-- LoadingScreen
+|   |   `-- Loading.tsx            # Full-page loader
+|   |-- achievement
+|   |   `-- ACHIV.tsx              # Achievement card component
+|   |-- addAchievement
+|   |   `-- ADD.tsx                # Add achievement modal
+|   |-- loader
+|   |   `-- Loader.tsx             # Small loaders
+|   |-- popup
+|   |   `-- Modal.tsx              # Reusable modal
+|   `-- session
+|       `-- provider.tsx           # Session provider
+|
+|-- lib
+|   |-- achiv.model.ts             # Achievement schema
+|   |-- user.model.ts              # User schema
+|   |-- db.ts                      # MongoDB connection
+|   `-- cloudinary.ts              # Cloudinary config
+|
+|-- public
+|   |-- avatar                     # Uploaded avatars
+|   `-- logo.png
+|
+|-- types
+|   `-- next-auth.d.ts             # NextAuth type extensions
+|
+|-- next.config.ts
+|-- tsconfig.json
+|-- package.json
+|-- package-lock.json
 ```
 
 ---
@@ -394,23 +221,12 @@ Contributions are welcome!
 ## 📜 License
 
 This project is licensed under the **MIT License**.
->>>>>>> b823828a711e18f17d06756ece69df6cf2584a97
 
 ---
 
 ## 👨‍💻 Author
 
-<<<<<<< HEAD
-**Hardik (Hexelion)**
-
-* Full Stack Developer
-* Tech: Next.js | MongoDB | Auth | UI/UX
-
----
-
-⭐ If you like this project, give it a **star** on GitHub!
-=======
-**Hexelion**
+**Hardik**
 Full Stack Web Developer
 
 * GitHub: [https://github.com/Hardik7219](https://github.com/Hardik7219)
@@ -418,4 +234,3 @@ Full Stack Web Developer
 ---
 
 ⭐ If you find this project useful, please consider giving it a star ⭐
->>>>>>> b823828a711e18f17d06756ece69df6cf2584a97
