@@ -5,7 +5,7 @@ import { useSession } from 'next-auth/react';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faImage } from '@fortawesome/free-solid-svg-icons'
 import Loading from '@/components/LoadingScreen/Loading';
-
+import Link  from 'next/link';
 export default function ProfileEdit() {
     const { data: session, status, update } = useSession();
     const [avatar, setAvatar] = useState<File | null>(null);
@@ -60,7 +60,7 @@ await update({
 
     return (
         <>
-            <div className="bg-zinc-900 fixed inset-0 z-50 h-screen w-full">
+<div className="bg-zinc-900 fixed inset-0 z-50 h-screen w-full overflow-y-auto">
                 {loading &&(
                     <Loading></Loading>
                 )}
@@ -86,11 +86,14 @@ await update({
                         </div>
                         <div className='w-full p-2 '>
                             <h1 className='flex justify-self-center text-sm text-red-700 font-mono font-bold ' >{msg}</h1>
-                            <button onClick={submit} className=' flex self-end justify-center items-center justify-self-end rounded-sm text-black font-mono font-bold hover:text-gray-600 shadow-red-600 shadow-md hover:cursor-pointer bg-blue-500 h-10 w-20' >update</button>
+                            <div className='flex ustify-self-end self-end'>
+                                <Link href="/pages/profile" className=' flex self-end justify-center items-center justify-self-end rounded-sm text-black font-mono font-bold hover:text-gray-600 shadow-blue-600 shadow-md hover:cursor-pointer bg-red-500 h-10 w-20' >Back</Link>
+                                <button onClick={submit} className=' flex self-end justify-center items-center justify-self-end rounded-sm text-black font-mono font-bold hover:text-gray-600 shadow-red-600 shadow-md hover:cursor-pointer bg-blue-500 h-10 w-20' >update</button>
+                            </div>
                         </div>
                     </div>
-                    <div className='w-full mt-5 bg-gray-900'>
-                        <div className="rounded-sm ">
+                    <div className='w-full mt-5 flex  bg-gray-900'>
+                        <div className="rounded-sm w-full ">
                             <Task></Task>
                         </div>  
                     </div>
