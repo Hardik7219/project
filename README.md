@@ -131,6 +131,8 @@ The project follows a **modular and scalable structure** using **Next.js App Rou
 |-- package.json
 |-- package-lock.json
 ```
+#SCREEN-SHOTS
+<img width="1920" height="1080" alt="Screenshot_20260130_200236" src="https://github.com/user-attachments/assets/76685e81-c7e8-46fa-a0a7-0d345025fde5" />
 
 ---
 
