@@ -5,6 +5,7 @@ export interface IUser extends Document {
   email?: string;
   password?: string;
   avatar?: string;
+  role?:string;
   achiv: mongoose.Types.ObjectId[];
 }
 
@@ -18,6 +19,11 @@ const userSchema = new Schema<IUser>({
   password: {
     type: String,
     required: true,
+  },
+  role: {
+    type:String,
+    enum : ['user','admin'],
+    default :'user'
   },
   avatar: String,
   achiv: [

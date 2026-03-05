@@ -1,7 +1,9 @@
 import { NextRequest, NextResponse } from "next/server";
 import { getToken } from "next-auth/jwt";
 
+
 export async function proxy(request: NextRequest) {
+
   const token = await getToken({ req: request });
   const pathname = request.nextUrl.pathname;
 
@@ -9,7 +11,11 @@ export async function proxy(request: NextRequest) {
   if (!token && pathname.startsWith("/pages")) {
     return NextResponse.redirect(new URL("/login", request.url));
   }
-
+  //admin panel
+  if(!token || (pathname.startsWith("/admin") && token.role!== 'admin'))
+  {
+      return NextResponse.redirect(new URL("/pages/home", request.url));  
+  }
   // Logged in → trying to access auth pages
   if (token && (pathname === "/login" || pathname === "/sign")) {
     return NextResponse.redirect(new URL("/pages/home", request.url));
@@ -19,5 +25,5 @@ export async function proxy(request: NextRequest) {
 }
 
 export const config = {
-  matcher: ["/login", "/sign", "/pages/:path*"],
+  matcher: ["/admin/:path*","/login", "/sign", "/pages/:path*"],
 };

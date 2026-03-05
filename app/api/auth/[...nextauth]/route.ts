@@ -61,6 +61,7 @@ export const authOptions : NextAuthOptions = {
         token.id = user.id;
         token.userName = user.userName;
         token.avatar=user.avatar;
+        token.role = user.role;
     }
     if (!token.id) {
         return token;
@@ -72,6 +73,7 @@ export const authOptions : NextAuthOptions = {
     if (dbUser) {
         token.userName = dbUser.userName;
         token.avatar= dbUser.avatar;
+        token.role= dbUser.role;
     }
     
 
@@ -84,6 +86,7 @@ export const authOptions : NextAuthOptions = {
             session.user.id = token.id as string;
             session.user.userName = token.userName;
             session.user.avatar = token.avatar;
+            session.user.role= token.role;
         }
         return session;
         },

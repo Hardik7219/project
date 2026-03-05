@@ -6,6 +6,7 @@ declare module "next-auth" {
       id: string;
       userName?: string | null;
       avatar?: string | null;
+      role ? : string | null;
     } & DefaultSession["user"];
   }
 
@@ -14,6 +15,7 @@ declare module "next-auth" {
     email?: string | null;
     userName?: string | null;
     avatar?: string | null;
+    role ?: string | null;
   }
 }
 
@@ -22,5 +24,6 @@ declare module "next-auth/jwt" {
     id?: string;
     userName?: string;
     avatar?: string;
+    role?:string;
   }
 }
