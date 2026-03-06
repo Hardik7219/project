@@ -6,75 +6,148 @@ import { getServerSession } from "next-auth";
 import { authOptions } from "../auth/[...nextauth]/route";
 
 
-export async function POST(req : Request)
-{
+export async function POST(req: Request) {
     const session = await getServerSession(authOptions);
-    if(!session)
-    {
+    if (!session) {
         return NextResponse.json(
-                { error: "Unauthorized" },
-                { status: 401 }
-            );
+            { error: "Unauthorized" },
+            { status: 401 }
+        );
     }
     try {
         const formData = await req.formData();
         const taskName = formData.get("taskName") as string;
-        const taskDetail = formData.get("taskDetail") as string ;
+        const taskDetail = formData.get("taskDetail") as string;
         const isTaskRepe = formData.get("isTaskRepe") === "true";
-        console.log(session.user.id);
         await connections();
         const user1 = await Users.findById(session.user.id);
-        if(!user1) 
-        {
-            return NextResponse.json(  { error: "User not found" },{ status: 404 });
+        if (!user1) {
+            return NextResponse.json({ error: "User not found" }, { status: 404 });
         }
-                
+
         const task = await Tasks.create({
-            user : [user1._id],
-            taskName:taskName,
-            taskDetail:taskDetail,
-            isTaskRepe:isTaskRepe,
+            user: [user1._id],
+            taskName: taskName,
+            taskDetail: taskDetail,
+            isTaskRepe: isTaskRepe,
         })
         user1.task.push(task._id)
         await user1.save();
-        if(task)
+        if (task)
             return NextResponse.json("task added")
         else
             return NextResponse.json("something happend")
     } catch (error) {
-        return NextResponse.json({error})
+        return NextResponse.json({ error })
     }
 }
 
-export async function PATCH(req : Request)
-{
+export async function PATCH(req: Request) {
     const session = await getServerSession(authOptions);
-    if(!session)
-    {
+    if (!session) {
         return NextResponse.json(
+            { error: "Unauthorized" },
+            { status: 401 }
+        );
+    }
+    try {
+        const {id,isTaskDone, isTaskRepe} = await req.json();
+        await connections();
+        const user1 = await Users.findById(session.user.id);
+        if (!user1) {
+            return NextResponse.json({ error: "User not found" }, { status: 404 });
+        }
+        const updateData : any={}  
+        if(isTaskDone !== undefined) updateData.isTaskDone = isTaskDone;
+        if(isTaskRepe !==undefined) updateData.isTaskRepe = isTaskRepe;
+        const UpdateTask = await Tasks.findByIdAndUpdate(id,
+            updateData,
+            {
+                new: true,
+                lean: true
+            }
+        )
+        if (UpdateTask) return NextResponse.json("checked")
+        else return NextResponse.json("something is wrong")
+    } catch (error) {
+        return NextResponse.json(error)
+    }
+}
+
+export async function PUT(req: Request) {
+    const session = await getServerSession(authOptions);
+    if (!session) {
+        return NextResponse.json(
+            { error: "Unauthorized" },
+            { status: 401 }
+        );
+    }
+    try {
+        const formData = await req.formData();
+        const taskName = formData.get("taskName") as string;
+        const taskDetail = formData.get("taskDetail") as string;
+        const taskId = formData.get("_id");
+        await connections();
+        const user1 = await Users.findById(session.user.id);
+        if (!user1) {
+            return NextResponse.json({ error: "User not found" }, { status: 404 });
+        }
+        const task = await Tasks.findById({ _id: taskId })
+        if (!task) return NextResponse.json("task not found ")
+        const updateData: any = {};
+
+        if (taskName) updateData.taskName = taskName;
+        if (taskDetail) updateData.taskDetail = taskDetail;
+
+
+        const updatedTask = await Tasks.findByIdAndUpdate(
+            taskId,
+            updateData,
+            { new: true }
+        );
+
+        if (updatedTask) {
+            return NextResponse.json({ message: "Task Updated" });
+        }
+        else {
+            return NextResponse.json({ message: "Update failed" });
+        }
+    } catch (error) {
+        return NextResponse.json(error)
+    }
+}
+
+export async function DELETE(req: Request) {
+    try {
+        const session = await getServerSession(authOptions);
+        if (!session) {
+            return NextResponse.json(
                 { error: "Unauthorized" },
                 { status: 401 }
             );
-    }
-    try {
-        const {isTaskDone,id} = await req.json();
+        }
+        const {deleteId} = await req.json()
         await connections();
         const user1 = await Users.findById(session.user.id);
-        if(!user1) 
-        {
-            return NextResponse.json(  { error: "User not found" },{ status: 404 });
+        if (!user1) {
+            return NextResponse.json({ message: "User not found" }, { status: 404 });
         }
-        const UpdateTask = await Tasks.findByIdAndUpdate(id,{
-            isTaskDone:isTaskDone
-        },
+        const task = await Tasks.findById(deleteId)
+        if (!task) return NextResponse.json({message:"task not found"})
+        
+        const deleteTask = await Tasks.findOneAndDelete({
+            _id: deleteId,
+            user: user1._id
+        });
+        if(deleteTask)
         {
-            new:true,
-            lean :true
-        }
-    )
-        if(UpdateTask) return NextResponse.json("checked")
-        else return NextResponse.json("something is wrong")       
+            await Users.findByIdAndUpdate(user1._id,{
+                $pull:{ task: deleteId }
+            })
+            return NextResponse.json({message: "task deleted"})
+        } 
+        else return NextResponse.json({message:"something went wrong"})
     } catch (error) {
-        return NextResponse.json(error) 
+        return NextResponse.json({message:error})
     }
 }

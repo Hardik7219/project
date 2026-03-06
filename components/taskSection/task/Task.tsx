@@ -1,15 +1,33 @@
 'use client'
-import { PATCH } from '@/app/api/achiv/route';
+import Modal from '@/components/popup/Modal';
 import React, { useEffect, useState } from 'react'
+import EditTask from '../taskActions/EditTask';
 
 function Task() {
   const [task,setTast]=useState<any[]>();
   const [done,setDone] = useState();
+  const [repeated,setRepe] = useState();
+  const [deleteId,setdeleteId] = useState<string | null>(null);
+  const [editId,setEditId] = useState<string | null>(null);
+  const [msg,setMsg]=useState<string | any>();
+
   useEffect(()=>{
     fetch ('/api/fetchTask')
     .then(res=>res.json())
     .then(data => setTast(data));
-},[done])
+},[done,repeated])
+const deleteTask=async ()=>
+{
+  const task = await fetch('/api/task',
+    {
+      method :"DELETE",
+      headers:{ "Content-Type": "application/json" },
+      body: JSON.stringify({deleteId})
+    }
+  )
+  const data = await task.json();
+  setMsg(data.message);
+}
 const isDone= async (e,id)=>{
   const isTaskDone = e
   setDone(isTaskDone)
@@ -17,6 +35,15 @@ const isDone= async (e,id)=>{
     method : 'PATCH',
     headers:{ "Content-Type": "application/json" },
     body : JSON.stringify({isTaskDone,id})
+  })
+}
+const isRepe= async (e,id)=>{
+  const isTaskRepe = e
+  setRepe(isTaskRepe)
+  const TaskRepe = await fetch('/api/task',{
+    method : 'PATCH',
+    headers:{ "Content-Type": "application/json" },
+    body : JSON.stringify({isTaskRepe,id})
   })
 }
   return (
@@ -35,10 +62,24 @@ const isDone= async (e,id)=>{
                   </div>
                 </div>
                 <div className='flex gap-5 justify-end pr-2'>
-                    <input type="checkbox" className='bg-amber-300'></input>
-                    <button>delete</button>
-                    <button>edit</button>
+                    repeated:-<input type="checkbox" className='bg-amber-300' onChange={(e)=>isRepe(e.target.checked,data._id)} checked={data.isTaskRepe}></input>
+                    <button onClick={()=>setdeleteId(data._id)} > delete </button>
+                    <button onClick={()=>setEditId(data._id)}>edit</button>
                   </div>
+                  {deleteId && (
+                    <Modal onClose={()=>setdeleteId(null)}>
+                      <div className='flex gap-5'>
+                          <button className='bg-amber-500 ' onClick={deleteTask}>YES</button>
+                          <button className='bg-amber-500 ' onClick={()=>setdeleteId(null)}>NO</button>
+                          {msg}
+                      </div>
+                    </Modal>
+                  )}
+                  {editId && (
+                    <Modal onClose={()=>setEditId(null)}>
+                      <EditTask id={editId}/>
+                    </Modal>
+                  )}
               </div>              
             ))
           )}
