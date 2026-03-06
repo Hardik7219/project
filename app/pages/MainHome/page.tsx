@@ -6,15 +6,31 @@
 // import { useState } from 'react';
 // import Modal from '@/components/popup/Modal';
 import AchievementSection from "@/components/achievementSection/achievement/AchievementSection";
+import TaskSection from "@/components/taskSection/task/TaskSection"
+import { features } from "process";
+import { useState } from "react";
 export default function MainHome() {
     // const [add,showAdd]= useState<boolean>(false)
     // const [date,showDate]= useState<boolean>(false);
     // const [selDate,setSelDate]= useState<string | null >("")
     // const [selstar,setStar]= useState<boolean>(false)
+    const Feature={
+        Achive:<AchievementSection></AchievementSection>,
+        Task:<TaskSection></TaskSection>,
+        Progress:""
+    }
+    const [sec,setSec]=useState<any>(Feature.Achive); 
     return (
         <>
             <div className="w-full bg-gray-950 min-h-screen ">
-                    <AchievementSection></AchievementSection>
+                <div className="flex justify-center items-center">
+                    <div className="flex gap-5">
+                        <button className="bg-yellow-300 border-2" onClick={()=>setSec(Feature.Achive)}>Achievement</button>
+                        <button className="bg-yellow-300 border-2" onClick={()=>setSec(Feature.Task)}>Task</button>
+                        <button className="bg-yellow-300 border-2">Progress</button>
+                    </div>
+                </div>
+                    {sec}
                     {/* <div className='w-full flex justify-center items-center justify-self-center lg:justify-self-end '>
                         <div className="mt-6 w-full lg:w-[70%] flex justify-center items-center ">
                             <Achiv date={selDate} star={selstar}/>
