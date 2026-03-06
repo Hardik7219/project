@@ -4,6 +4,8 @@ import { Users } from "@/lib/user.model";
 import { NextResponse } from "next/server";
 import { getServerSession } from "next-auth";
 import { authOptions } from "../auth/[...nextauth]/route";
+
+
 export async function POST(req : Request)
 {
     const session = await getServerSession(authOptions);
@@ -41,5 +43,38 @@ export async function POST(req : Request)
             return NextResponse.json("something happend")
     } catch (error) {
         return NextResponse.json({error})
+    }
+}
+
+export async function PATCH(req : Request)
+{
+    const session = await getServerSession(authOptions);
+    if(!session)
+    {
+        return NextResponse.json(
+                { error: "Unauthorized" },
+                { status: 401 }
+            );
+    }
+    try {
+        const {isTaskDone,id} = await req.json();
+        await connections();
+        const user1 = await Users.findById(session.user.id);
+        if(!user1) 
+        {
+            return NextResponse.json(  { error: "User not found" },{ status: 404 });
+        }
+        const UpdateTask = await Tasks.findByIdAndUpdate(id,{
+            isTaskDone:isTaskDone
+        },
+        {
+            new:true,
+            lean :true
+        }
+    )
+        if(UpdateTask) return NextResponse.json("checked")
+        else return NextResponse.json("something is wrong")       
+    } catch (error) {
+        return NextResponse.json(error) 
     }
 }

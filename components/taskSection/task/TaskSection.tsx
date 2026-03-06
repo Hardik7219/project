@@ -9,8 +9,10 @@ function TaskSection() {
   return (
     <>
       <div className='bg-zinc-950 min-h-full w-full'>
-        <div>
+        <div className='flex justify-center items-center mt-5'>
+          <div className='w-[80%]'>
               <Task></Task>
+          </div>
         </div>
         <aside className={`rounded-sm gap-2  flex flex-col  inset-0 z-20 top-0 fixed justify-self-end self-end m-10 lg:m-20`}>
           <div>
