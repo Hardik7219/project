@@ -15,7 +15,7 @@ export default function Achievement({date,star} : AchivProps)  {
         if (date) params.append("date", date);
         if (star !== undefined) params.append("star", String(star));
         const query = params.toString();
-        const url = query ? `/api/fetch?${query}` : `/api/fetch`;
+        const url = query ? `/api/fetchAchiv?${query}` : `/api/fetchAchiv`;
         fetch(url)
         .then(res =>res.json())
         .then(setUserData)

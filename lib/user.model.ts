@@ -7,6 +7,7 @@ export interface IUser extends Document {
   avatar?: string;
   role?:string;
   achiv: mongoose.Types.ObjectId[];
+  task : mongoose.Types.ObjectId[];
 }
 
 const userSchema = new Schema<IUser>({
@@ -32,6 +33,12 @@ const userSchema = new Schema<IUser>({
       ref: "Achivs",
     },
   ],
+  task:[
+    {
+      type:Schema.Types.ObjectId,
+      ref :"Tasks"
+    }
+  ]
 },{ timestamps: true }
 );
 

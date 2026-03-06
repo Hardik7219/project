@@ -26,7 +26,7 @@ export default function ProfileEdit() {
         if (name) formData.append("userName", name);
         if (avatar) formData.append("avatar", avatar);
         
-        const res = await fetch("/api/fetch", {
+        const res = await fetch("/api/updateUser", {
             method: "PUT",
             body: formData
         });
