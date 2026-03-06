@@ -1,5 +1,5 @@
 'use client'
-import Achiv from '../achievements/page'
+import Achievement from '@/components/achievementSection/achievement/achievment';
 import { useSession } from 'next-auth/react';
 import { useEffect,useState } from 'react';
 import Loader from '@/components/loader/Loader';
@@ -30,7 +30,7 @@ export default  function Profile() {
                     </div>
                 </div>
                 <div className="w-full flex justify-center mt-5">
-                    <Achiv ></Achiv>
+                    <Achievement ></Achievement>
                 </div>
             </div>
         </>

@@ -1,8 +1,7 @@
 'use client'
 import { useState } from "react";
-import Loading from "../LoadingScreen/Loading";
-
-export default function Action({id,onClose}:any) {
+import Loading from "@/components/LoadingScreen/Loading";
+export default function EditAchievement({id,onClose}:any) {
     const [title,setTitle]=useState("")
     const [details,setDetails]= useState("")
     const [msg,setMsg]=useState("")

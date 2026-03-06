@@ -14,11 +14,11 @@ export async function proxy(request: NextRequest) {
   //admin panel
   if(!token || (pathname.startsWith("/admin") && token.role!== 'admin'))
   {
-      return NextResponse.redirect(new URL("/pages/home", request.url));  
+      return NextResponse.redirect(new URL("/pages/MainHome", request.url));  
   }
   // Logged in → trying to access auth pages
   if (token && (pathname === "/login" || pathname === "/sign")) {
-    return NextResponse.redirect(new URL("/pages/home", request.url));
+    return NextResponse.redirect(new URL("/pages/MainHome", request.url));
   }
 
   return NextResponse.next();

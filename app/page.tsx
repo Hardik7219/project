@@ -10,7 +10,7 @@ export default function Page() {
   if(status == 'loading')
     return <Loader></Loader>
   else if(session?.user.id)
-    redirect('/pages/home')
+    redirect('/pages/MainHome')
   return (
     <div className="">
         <div className="flex">

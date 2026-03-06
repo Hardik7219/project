@@ -1,9 +1,8 @@
 'use client'
 import { useState } from "react";
 import { useSession } from "next-auth/react";
-import Loading from "../LoadingScreen/Loading";
-
-export default function ADD() {
+import Loading from "@/components/LoadingScreen/Loading";
+export default function AddAchievement() {
         const [title,setTitle]=useState("")
         const [details,setDetails]= useState("")
         const [msg,setMsg]=useState<string>("")

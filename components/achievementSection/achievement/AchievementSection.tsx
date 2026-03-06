@@ -1,12 +1,12 @@
 'use client'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faCalendar, faPlus,faStar } from '@fortawesome/free-solid-svg-icons'
-import Achiv from '../achievements/page'
-import ADD from '@/components/addAchievement/ADD';
+import Achievement from './achievment';
+import AddAchievement from '../actions/AddAchievement';
 import { useState } from 'react';
 import Modal from '@/components/popup/Modal';
 
-export default function Home() {
+export default function AchievementSection() {
     const [add,showAdd]= useState<boolean>(false)
     const [date,showDate]= useState<boolean>(false);
     const [selDate,setSelDate]= useState<string | null >("")
@@ -16,11 +16,11 @@ export default function Home() {
             <div className="w-full bg-gray-950 min-h-screen ">
                     <div className='w-full flex justify-center items-center justify-self-center lg:justify-self-end '>
                         <div className="mt-6 w-full lg:w-[70%] flex justify-center items-center ">
-                            <Achiv date={selDate} star={selstar}/>
+                            <Achievement date={selDate} star={selstar}/>
                         </div>
                         {add && (
                             <Modal onClose={() => showAdd(false)} >
-                                <ADD></ADD>
+                                <AddAchievement></AddAchievement>
                             </Modal>
                         )}
                         {date && (

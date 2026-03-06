@@ -1,10 +1,12 @@
-import Action from '@/components/Actions/Action';
+import EditAchievement from './EditAchiement';
 import { useState } from 'react';
 import Modal from '@/components/popup/Modal';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faStar } from '@fortawesome/free-solid-svg-icons';
-import Loading from '../LoadingScreen/Loading';
-export default function TASK({id,title1,detail,isStar,date}:any) {
+import Loading from '@/components/LoadingScreen/Loading';
+
+
+export default function ActionAchievement({id,title1,detail,isStar,date}:any) {
         const [showAction, setShowAction] = useState<boolean>(false);
         const [isStar1,setStar ] = useState<boolean>(!isStar);
         const today = new Date(date);
@@ -80,7 +82,7 @@ export default function TASK({id,title1,detail,isStar,date}:any) {
                     </div>
                         {showAction && (
                                 <Modal onClose={() => setShowAction(false)}>
-                                    <Action id={id} onClose={() => setShowAction(false)} /> 
+                                    <EditAchievement id={id} onClose={() => setShowAction(false)} /> 
                                 </Modal>
                         )}
                     </div>

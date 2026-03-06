@@ -2,13 +2,12 @@
 
 import Loader from '@/components/loader/Loader';
 import { useEffect,useState } from 'react';
-import ACHIV from '@/components/achievement/ACHIV';
-
+import ActionAchievement from '../actions/ActionAchievement';
 type AchivProps = {
     date?: string | null;
     star?: boolean ; 
 };
-export default function Achiv({date,star} : AchivProps)  {
+export default function Achievement({date,star} : AchivProps)  {
     const [userData, setUserData] = useState<any>(null);
     useEffect(() => {
         const params = new URLSearchParams();
@@ -32,7 +31,7 @@ export default function Achiv({date,star} : AchivProps)  {
                             <p className='text-2xl font-bold font-sans text-red-500'>NO Achievement Yet</p>
                         ) : (
                             userData.achivs.map((t: any) => (
-                                <ACHIV key={t._id} title1={t.title} detail={t.detail} id={t._id} isStar={t.isStar} date={t.createDate}/>
+                                <ActionAchievement key={t._id} title1={t.title} detail={t.detail} id={t._id} isStar={t.isStar} date={t.createDate}/>
                             ))
                         )}
                     </div>
