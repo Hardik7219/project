@@ -8,6 +8,7 @@ export interface IUser extends Document {
   role?:string;
   achiv: mongoose.Types.ObjectId[];
   task : mongoose.Types.ObjectId[];
+  maxStreakTask : number;
 }
 
 const userSchema = new Schema<IUser>({
@@ -38,8 +39,13 @@ const userSchema = new Schema<IUser>({
       type:Schema.Types.ObjectId,
       ref :"Tasks"
     }
-  ]
-},{ timestamps: true }
+  ],
+  maxStreakTask : {
+    type:Number,
+  default :0,
+},
+},
+{ timestamps: true }
 );
 
 export const Users: Model<IUser> =

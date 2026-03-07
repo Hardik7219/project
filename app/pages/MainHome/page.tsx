@@ -15,11 +15,11 @@ export default function MainHome() {
     return (
         <>
             <div className="w-full bg-gray-950 min-h-screen ">
-                <div className="flex justify-center items-center">
+                <div className="flex p-3 items-center">
                     <div className="flex gap-5">
-                        <button className="bg-yellow-300 border-2" onClick={()=>setSec(Feature.Achive)}>Achievement</button>
-                        <button className="bg-yellow-300 border-2" onClick={()=>setSec(Feature.Task)}>Task</button>
-                        <button className="bg-yellow-300 border-2">Progress</button>
+                        <button className="border-indigo-500 hover:border-white p-2 m-1 rounded-lg  ease-in-out border-2 text-cyan-400 " onClick={()=>setSec(Feature.Achive)}>Achievement</button>
+                        <button className="border-indigo-500 hover:border-white p-2 m-1 rounded-lg  ease-in-out border-2 text-cyan-400 " onClick={()=>setSec(Feature.Task)}>Task</button>
+                        <button className="border-indigo-500 hover:border-white p-2 m-1 rounded-lg  ease-in-out border-2 text-cyan-400 ">Progress</button>
                     </div>
                 </div>
                     {sec}

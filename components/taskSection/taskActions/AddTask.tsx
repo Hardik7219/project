@@ -37,14 +37,15 @@ function AddTask() {
 
   return (
     <>
-      <div>
+      <div className="flex  justify-center items-center bg-gray-900 p-5  h-50">
         {load && (
           <Loader></Loader>
         )}
         <div className='flex flex-col justify-center items-center'>
-            <input onChange={(e)=>setName(e.target.value)} type="text" placeholder='Task Name'></input>
-            <input onChange={(e)=>setDetail(e.target.value)} type="text" placeholder='Task Detail'></input>
-            <div>
+          <p className="font-mon text-2xl font-bold flex justify-center items-center">Add Achievement</p>
+            <input className="mb-1 p-1 transparent outline-none w-80 border-black border-2 rounded-sm text-white"  onChange={(e)=>setName(e.target.value)} type="text" placeholder='Task Name'></input>
+            <input className=" p-1 transparent outline-none w-80 border-black border-2 rounded-sm text-white"  onChange={(e)=>setDetail(e.target.value)} type="text" placeholder='Task Detail'></input>
+            <div className='mt-2 gap-5 flex p-3'>
               <label>Daily</label>
               <input value="daily" onChange={(e)=>setRepeated(e.target.value)} type="checkbox"></input>
               <label>Weakly</label>
@@ -53,7 +54,7 @@ function AddTask() {
               <input  value="monthly"onChange={(e)=>setRepeated(e.target.value)} type="checkbox"></input>
             </div>
             {msg}
-            <button onClick={TaskCreate}>Add Task</button>
+            <button className=" rounded-sm  text-black font-bold flex justify-center items-center  bg-cyan-500 shadow-lg shadow-cyan-500/50 h-10 w-40 " onClick={TaskCreate}>Add Task</button>
         </div>
       </div>
     </>
