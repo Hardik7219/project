@@ -27,7 +27,7 @@ export async function POST(req: Request) {
         const createTask :any = {}
         if(user1) createTask.user= user1._id
         if(taskName) createTask.taskName = taskName;
-        if(taskDetail) createTask.taskName = taskDetail;
+        if(taskDetail) createTask.taskDetail = taskDetail;
         if(isTaskRepe) createTask.isTaskRepe = isTaskRepe;
         // if(!isTaskRepe) isTaskRepe="oneTime";
         const task = await Tasks.create(createTask)
@@ -69,43 +69,42 @@ export async function PATCH(req: Request) {
                 const completeDate = new Date()
                 completeDate.setHours(0,0,0,0)
                 updateData.taskCompletDate=completeDate;
-               const today = new Date()
-today.setHours(0,0,0,0)
+                const today = new Date()
+                today.setHours(0,0,0,0)
 
-if(task.taskCompletDate)
-{
-    const last = new Date(task.taskCompletDate)
-    last.setHours(0,0,0,0)
+                if(task.taskCompletDate)
+                {
+                    const last = new Date(task.taskCompletDate)
+                    last.setHours(0,0,0,0)
 
-    const yesterday = new Date(today)
-    yesterday.setDate(today.getDate() - 1)
+                    const yesterday = new Date(today)
+                    yesterday.setDate(today.getDate() - 1)
 
-    if(last.getTime() === yesterday.getTime())
-    {
-        updateData.streak = task.streak + 1
-    }
-    else if(last.getTime() === today.getTime())
-    {
-        updateData.streak = task.streak
-    }
-    else
-    {
-        updateData.streak = 1
-    }
-}
-else
-{
-    updateData.streak = 1
-}
+                    if(last.getTime() === yesterday.getTime())
+                    {
+                        updateData.streak = task.streak + 1
+                    }
+                    else if(last.getTime() === today.getTime())
+                    {
+                        updateData.streak = task.streak
+                    }
+                    else
+                    {
+                        updateData.streak = 1
+                    }
+                }
+                else
+                {
+                    updateData.streak = 1
+                }
             }
             else{
                 updateData.taskCompletDate = null;
             }
         } 
-        if(isTaskRepe !==undefined)
-        {
+        if (isTaskRepe !== undefined) {
             updateData.isTaskRepe = isTaskRepe;
-        } 
+        }
         const UpdateTask = await Tasks.findByIdAndUpdate(id,
             updateData,
             {

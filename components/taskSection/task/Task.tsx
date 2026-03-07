@@ -39,12 +39,13 @@ const isDone= async (e,id)=>{
 }
 const isRepe= async (e,id)=>{
   const isTaskRepe = e
-  setRepe(isTaskRepe)
   const TaskRepe = await fetch('/api/task',{
     method : 'PATCH',
     headers:{ "Content-Type": "application/json" },
     body : JSON.stringify({isTaskRepe,id})
   })
+  const data = await TaskRepe.json()
+  setRepe(data)
 }
   return (
     <>
@@ -54,17 +55,19 @@ const isRepe= async (e,id)=>{
               <div key={data._id} className='bg-amber-500 w-[70%] border h-30'>
                 <div className='flex justify-between'>
                   <div className='h-full flex flex-col gap-2 pl-5'>
-                    <p className='p-2 border'>{data.taskName}</p> <p>streak :- {data.streak}</p>
+                    <p className='p-2 border'>{data.taskName}</p>
                     <p className='p-2 border'>{data.taskDetail}</p>
                   </div>
                   <div className='flex flex-col pr-5 justify-center '>
+                    <p>{data.isTaskRepe ? "streak :- "+data.streak : ""}</p>
                     <input type="checkbox" onChange={(e)=>isDone(e.target.checked,data._id)} checked={data.isTaskDone}  className='bg-amber-50'></input>
                   </div>
                 </div>
                 <div className='flex gap-5 justify-end pr-2'>
-                    daily:-<input type="checkbox" className='bg-amber-300' value="daily" onChange={(e)=>isRepe(e.target.value,data._id)} checked={data.isTaskRepe=="daily"? true:false} ></input>
-                    weekly:-<input type="checkbox" className='bg-amber-300' value="weekly" onChange={(e)=>isRepe(e.target.value,data._id)} checked={data.isTaskRepe=="weekly"? true:false}></input>
-                    monthly:-<input type="checkbox" className='bg-amber-300' value="monthly" onChange={(e)=>isRepe(e.target.value,data._id)} checked={data.isTaskRepe=="monthly"? true:false}></input>
+                    OneTime:-<input type="checkbox" className='bg-amber-300'  onChange={(e)=>isRepe(null,data._id)} checked={data.isTaskRepe==null? true:false} ></input>
+                    daily:-<input type="checkbox" className='bg-amber-300' value="daily" onChange={(e)=>isRepe(e.target.value,data._id)} checked={data.isTaskRepe==="daily"? true:false} ></input>
+                    weekly:-<input type="checkbox" className='bg-amber-300' value="weekly" onChange={(e)=>isRepe(e.target.value,data._id)} checked={data.isTaskRepe==="weekly"? true:false}></input>
+                    monthly:-<input type="checkbox" className='bg-amber-300' value="monthly" onChange={(e)=>isRepe(e.target.value,data._id)} checked={data.isTaskRepe==="monthly"? true:false}></input>
                     <button onClick={()=>setdeleteId(data._id)} > delete </button>
                     <button onClick={()=>setEditId(data._id)}>edit</button>
                   </div>
