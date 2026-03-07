@@ -49,12 +49,12 @@ const isRepe= async (e,id)=>{
   return (
     <>
         <div className='bg-amber-700 flex flex-col gap-5'>
-          { task && (
+          { task?.length ?  (
             task.map((data : any)=>(
               <div key={data._id} className='bg-amber-500 w-[70%] border h-30'>
                 <div className='flex justify-between'>
                   <div className='h-full flex flex-col gap-2 pl-5'>
-                    <p className='p-2 border'>{data.taskName}</p>
+                    <p className='p-2 border'>{data.taskName}</p> <p>streak :- {data.streak}</p>
                     <p className='p-2 border'>{data.taskDetail}</p>
                   </div>
                   <div className='flex flex-col pr-5 justify-center '>
@@ -84,6 +84,8 @@ const isRepe= async (e,id)=>{
                   )}
               </div>              
             ))
+          ) : (
+            <p>no task</p>
           )}
         </div>
     </>

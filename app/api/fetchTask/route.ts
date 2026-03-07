@@ -21,11 +21,8 @@ export async function GET(req: Request) {
         for (const task of tasks) {
             if (!task.isTaskRepe) continue
 
-            const last = task.taskCompletDate ? new Date(task.taskCompletDate) : null;
-
-            if (!last) continue
-
-            last.setHours(0, 0, 0, 0)
+            const last = new Date(task.taskDate);
+            last.setHours(0,0,0,0);
 
             if (task.isTaskRepe === "daily") {
                 if (last < today) {
@@ -65,7 +62,7 @@ export async function GET(req: Request) {
             taskDate: { $gte: startDate, $lte: endDate }
         })
 
-        if (task.length === 0) return NextResponse.json("There is no task")
+        if(!task)return NextResponse.json("There is no task")
         else return NextResponse.json(task);
     } catch (error) {
         return NextResponse.json(error)

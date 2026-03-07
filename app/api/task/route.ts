@@ -65,9 +65,38 @@ export async function PATCH(req: Request) {
             updateData.isTaskDone = isTaskDone;
             if(isTaskDone===true)
             {
+
                 const completeDate = new Date()
                 completeDate.setHours(0,0,0,0)
                 updateData.taskCompletDate=completeDate;
+               const today = new Date()
+today.setHours(0,0,0,0)
+
+if(task.taskCompletDate)
+{
+    const last = new Date(task.taskCompletDate)
+    last.setHours(0,0,0,0)
+
+    const yesterday = new Date(today)
+    yesterday.setDate(today.getDate() - 1)
+
+    if(last.getTime() === yesterday.getTime())
+    {
+        updateData.streak = task.streak + 1
+    }
+    else if(last.getTime() === today.getTime())
+    {
+        updateData.streak = task.streak
+    }
+    else
+    {
+        updateData.streak = 1
+    }
+}
+else
+{
+    updateData.streak = 1
+}
             }
             else{
                 updateData.taskCompletDate = null;
