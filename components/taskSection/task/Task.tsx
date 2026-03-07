@@ -62,7 +62,9 @@ const isRepe= async (e,id)=>{
                   </div>
                 </div>
                 <div className='flex gap-5 justify-end pr-2'>
-                    repeated:-<input type="checkbox" className='bg-amber-300' onChange={(e)=>isRepe(e.target.checked,data._id)} checked={data.isTaskRepe}></input>
+                    daily:-<input type="checkbox" className='bg-amber-300' value="daily" onChange={(e)=>isRepe(e.target.value,data._id)} checked={data.isTaskRepe=="daily"? true:false} ></input>
+                    weekly:-<input type="checkbox" className='bg-amber-300' value="weekly" onChange={(e)=>isRepe(e.target.value,data._id)} checked={data.isTaskRepe=="weekly"? true:false}></input>
+                    monthly:-<input type="checkbox" className='bg-amber-300' value="monthly" onChange={(e)=>isRepe(e.target.value,data._id)} checked={data.isTaskRepe=="monthly"? true:false}></input>
                     <button onClick={()=>setdeleteId(data._id)} > delete </button>
                     <button onClick={()=>setEditId(data._id)}>edit</button>
                   </div>

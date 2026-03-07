@@ -2,12 +2,14 @@ import mongoose, { Schema, Model, models } from "mongoose";
 
 
 export interface ITask{
-    user :mongoose.Types.ObjectId[];
+    user :mongoose.Types.ObjectId;
     taskName :string;
     taskDetail : string;
     taskDate :Date;
     isTaskDone : boolean;
-    isTaskRepe:boolean;
+    isTaskRepe:string;
+    taskCompletDate:Date,
+    streak :number
 }
 
 const TaskSchema = new Schema<ITask>({
@@ -21,17 +23,24 @@ const TaskSchema = new Schema<ITask>({
     taskDetail:String,
     taskDate:{
         type:Date,
-        default : new Date(),
+        default: Date.now()
     },
     isTaskDone :{
         type:Boolean,
         default : false,
     },
     isTaskRepe:{
-        type:Boolean,
-        default : false,
+        type:String,
+        default : null,
     },
-
+    taskCompletDate:{
+        type:Date,
+        default :null
+    },
+    streak : {
+        type: Number,
+        default:0
+    }
 })
 
 

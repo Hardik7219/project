@@ -18,19 +18,19 @@ export async function POST(req: Request) {
         const formData = await req.formData();
         const taskName = formData.get("taskName") as string;
         const taskDetail = formData.get("taskDetail") as string;
-        const isTaskRepe = formData.get("isTaskRepe") === "true";
+        const isTaskRepe = formData.get("isTaskRepe") as string;
         await connections();
         const user1 = await Users.findById(session.user.id);
         if (!user1) {
             return NextResponse.json({ error: "User not found" }, { status: 404 });
         }
-
-        const task = await Tasks.create({
-            user: [user1._id],
-            taskName: taskName,
-            taskDetail: taskDetail,
-            isTaskRepe: isTaskRepe,
-        })
+        const createTask :any = {}
+        if(user1) createTask.user= user1._id
+        if(taskName) createTask.taskName = taskName;
+        if(taskDetail) createTask.taskName = taskDetail;
+        if(isTaskRepe) createTask.isTaskRepe = isTaskRepe;
+        // if(!isTaskRepe) isTaskRepe="oneTime";
+        const task = await Tasks.create(createTask)
         user1.task.push(task._id)
         await user1.save();
         if (task)
@@ -57,9 +57,26 @@ export async function PATCH(req: Request) {
         if (!user1) {
             return NextResponse.json({ error: "User not found" }, { status: 404 });
         }
+        const task = await Tasks.findOne({_id:id, user:user1._id})
+        if(!task) return NextResponse.json({message:"Task not found" , status : 401})
         const updateData : any={}  
-        if(isTaskDone !== undefined) updateData.isTaskDone = isTaskDone;
-        if(isTaskRepe !==undefined) updateData.isTaskRepe = isTaskRepe;
+        if(isTaskDone !== undefined)
+        {
+            updateData.isTaskDone = isTaskDone;
+            if(isTaskDone===true)
+            {
+                const completeDate = new Date()
+                completeDate.setHours(0,0,0,0)
+                updateData.taskCompletDate=completeDate;
+            }
+            else{
+                updateData.taskCompletDate = null;
+            }
+        } 
+        if(isTaskRepe !==undefined)
+        {
+            updateData.isTaskRepe = isTaskRepe;
+        } 
         const UpdateTask = await Tasks.findByIdAndUpdate(id,
             updateData,
             {
