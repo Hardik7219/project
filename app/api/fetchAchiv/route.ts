@@ -1,4 +1,3 @@
-import {Users} from '@/lib/user.model'
 import {connections} from '@/lib/db'
 import { NextResponse } from "next/server";
 import { getServerSession } from "next-auth";
@@ -20,8 +19,6 @@ export async function GET(req : Request)
     }
 
     await connections();
-
-    const user  = await Users.findById(session.user.id).select("-password");
     let achivs
     if(date && star)
       achivs = await Achivs.find({user : session.user.id , createDate : new Date(date),isStar : star})
@@ -31,5 +28,5 @@ export async function GET(req : Request)
       achivs = await Achivs.find({user : session.user.id ,isStar : star})
     else
       achivs= await Achivs.find({ user : session.user.id });
-    return NextResponse.json({user,achivs});
+    return NextResponse.json({achivs});
 }

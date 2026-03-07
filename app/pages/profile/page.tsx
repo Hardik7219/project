@@ -10,7 +10,7 @@ export default  function Profile() {
     const {data:session,status} = useSession()
     useEffect(() => {
         if (status === "authenticated") {
-        fetch("/api/fetch")
+        fetch("/api/fetchUser")
         .then(res => res.json())
         .then(data => setUser(data));
     }}, [status]);
