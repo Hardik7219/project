@@ -107,7 +107,7 @@ const isRepe= async (e,id)=>{
                   )}
                   {editId && (
                     <Modal onClose={()=>setEditId(null)}>
-                      <EditTask id={editId}/>
+                      <EditTask taskName={data.taskName} taskDetail={data.taskDetail} id={editId}/>
                     </Modal>
                   )}
               </div>              

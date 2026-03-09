@@ -2,7 +2,7 @@ import React, { useState } from 'react'
 import Loader from '@/components/loader/Loader';
 
 
-function EditTask({ id }: { id: string }) {
+function EditTask({ id,taskName,taskDetail }: { id: string ,taskName:string ,taskDetail:string}) {
   const [name,setName]=useState<string>();
   const [detail,setDetail]=useState<string>();
   const [load,setLoad] = useState<boolean>(false);
@@ -44,8 +44,8 @@ function EditTask({ id }: { id: string }) {
           <p className="font-mon text-lg  font-bold">EDIT THE ACHIEVEMENT</p>
           {(msg && <p className="text-red-400 font-bold font-sans">{msg}</p>)}
             <form className="p-2 flex justify-center items-center flex-col gap-5" onSubmit={TaskUpdate}>
-              <input className=" p-1 w-80 transparent outline-none border-black border-2 rounded-sm text-white" onChange={(e)=>setName(e.target.value)} type="text" placeholder="Task Name" />
-              <input className=" transparent resize-none outline-none w-80 border-black border-2 p-1 rounded-sm text-white"  onChange={(e)=>setDetail(e.target.value)} type="text" placeholder="Task Detail" />
+              <input className=" p-1 w-80 transparent outline-none border-black border-2 rounded-sm text-white" onChange={(e)=>setName(e.target.value)} type="text" placeholder={taskName} />
+              <input className=" transparent resize-none outline-none w-80 border-black border-2 p-1 rounded-sm text-white"  onChange={(e)=>setDetail(e.target.value)} type="text" placeholder={taskDetail} />
               <button className="rounded-sm text-black font-bold p-1 flex justify-center items-center  bg-cyan-500 shadow-lg shadow-cyan-500/50 h-10 w-45 " type="submit">Update Task</button>
             </form>
         </div>

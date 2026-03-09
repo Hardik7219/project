@@ -8,6 +8,7 @@ export interface IUser extends Document {
   role?:string;
   achiv: mongoose.Types.ObjectId[];
   task : mongoose.Types.ObjectId[];
+  progress : mongoose.Types.ObjectId[];
   maxStreakTask : number;
 }
 
@@ -38,6 +39,12 @@ const userSchema = new Schema<IUser>({
     {
       type:Schema.Types.ObjectId,
       ref :"Tasks"
+    }
+  ],
+  progress: [
+    {
+      type:Schema.Types.ObjectId,
+      ref:"Progresss"
     }
   ],
   maxStreakTask : {
